@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- css stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Delius+Swash+Caps" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+  <title>Sign Up</title>
+</head>
+<body>
+
+  <div id="home-page-content">
+  <h1 class="welcome-message">Welcome to</h1><img class="welcome-message" id="sum-rise-logo-welcome" src="/img/SumRise.png"><h1 class="welcome-message"><i class="exclamation icon"></i></h1>
+  <p id="description">An online portal that can summarize both web articles and textual content</p>
+
+  <div>
+    <button class="ui primary large button" onclick="window.location.href='users/login'"><i class="sign in icon"></i>Log In</button>
+    <button class="ui teal large button" onclick="window.location.href='users/new'"><i class="user plus icon"></i>Sign Up</button>
+  </div>
+
+  <div id="github">
+    <div><a href="https://github.com/aletheatoh/sum-rise" target="_blank">
+      <img id="github-logo" src="img/GitHub-Mark-120px-plus.png">
+      <div id="view-github">View on GitHub</div>
+    </a></div>
+    <div id="credits">Created by Alethea Toh</div>
+  </div>
+
+  </div>
+
+  </body>
+
+  <script>
+  // DISPLAY ADD ARTICLE MODAL
+  $(function(){
+    $("#add-article-button").click(function(){
+      $('#add-article').embed();
+      $(".add-article").modal('show');
+    });
+    $("#add-close-button").click(function(){
+      $(".add-article").modal('hide');
+      location.reload();
+    });
+    $(".add-article").modal({
+      closable: true
+    });
+  });
+
+  // DISPLAY ADD WRITING PIECE MODAL
+  $(function(){
+    $("#add-writing-piece-button").click(function(){
+      $('#add-writing-piece').embed();
+      $(".add-writing-piece").modal('show');
+    });
+    $("#add-close-button").click(function(){
+      $(".add-writing-piece").modal('hide');
+      location.reload();
+    });
+    $(".add-writing-piece").modal({
+      closable: true
+    });
+  });
+  </script>
+  </html>

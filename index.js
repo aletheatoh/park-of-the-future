@@ -20,7 +20,7 @@ const app = express();
 // Set up middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // Set handlebars to be the default view engine
 const handlebarsConfigs = {
@@ -47,8 +47,17 @@ app.use(express.static('public'));
 // Root GET request (it doesn't belong in any controller file)
 app.get('/', (request, response) => {
 
-  response.render('');
+  response.render('signin');
+});
 
+app.get('/home', (request, response) => {
+
+  response.render('home');
+});
+
+app.get('/map', (request, response) => {
+
+  response.render('map');
 });
 
 // Catch all unmatched requests and return 404 not found page

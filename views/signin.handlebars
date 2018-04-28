@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- css stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+  <title>Login</title>
+</head>
+<body>
+
+  <div id="signin-form" class="ui center aligned middle aligned grid">
+    <div class="twelve wide column">
+      <h1>Sign in to your account</h2>
+        <div class="ui stackable segment">
+          <div class="ui large form">
+            <div class="required field">
+              <label>Username</label>
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input id="username-input" type="text" name="name" placeholder="Username">
+              </div>
+            </div>
+            <div class="required field">
+              <label>Password</label>
+              <div class="ui left icon input required field">
+                <i class="lock icon"></i>
+                <input id="password-input" type="password" name="password" placeholder="Password">
+              </div>
+            </div>
+            <button class="ui primary small button" onclick="window.location.href='/home'"><i class="sign in icon"></i>Sign in</button>
+          </div>
+        </div>
+
+        <!-- FORM VALIDATOR -->
+        <div id="form-validator" class="ui error message" style="display:none;">
+          <ul id="form-validator-list" class="list">
+          </ul>
+        </div>
+
+        <div class="ui bottom attached warning message">
+          <!-- <p>Or, sign in with your social media account</p>
+          <button class="ui circular facebook icon button">
+            <i class="facebook icon"></i>
+          </button>
+          <button class="ui circular google plus icon button">
+            <i class="google plus icon"></i>
+          </button>
+          <button class="ui circular twitter icon button">
+            <i class="twitter icon"></i>
+          </button> -->
+          <p id="new-to-us">New to us? <a href="#"> Sign Up</a> here.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <script>
+
+    // validate form
+    $( "form" ).submit(function( event ) {
+      // $('#new-to-us').hide();
+      // if both a username and password have been entered
+      if ( $('#username-input').val() !== "" && $('#password-input').val() !== "") {
+        return;
+      }
+
+      // display error message
+      $('#form-validator').show();
+      $( "#form-validator-list" ).empty();
+      if ( $('#username-input').val() == "") {
+        $( "#form-validator-list" ).append('<li>Please enter a username</li>');
+      }
+
+      if ( $('#password-input').val() == "") {
+        $( "#form-validator-list" ).append('<li>Please enter a password</li>');
+      }
+
+      event.preventDefault();
+    });
+
+    </script>
+
+  </body>
+  </html>
