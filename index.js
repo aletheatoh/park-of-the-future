@@ -55,9 +55,14 @@ app.get('/home', (request, response) => {
   response.render('home');
 });
 
+app.get('/add', (request, response) => {
+
+  response.render('add');
+});
+
 app.get('/map', (request, response) => {
 
-  response.render('map');
+  response.render('clement');
 });
 
 // Catch all unmatched requests and return 404 not found page
