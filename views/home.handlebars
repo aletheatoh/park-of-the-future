@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+p<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -18,8 +18,7 @@
 
 
   <style>
-      body { margin:0; padding:0; }
-      #map { position:absolute; top:0; width:100%; height: 90%; z-index: 0;}
+      #map { position:absolute; top:0; width:100%; height: 100%; z-index: 0;}
   </style>
   </head>
   <body>
@@ -34,7 +33,6 @@
   pitch: 90,
   zoom: 18 // starting zoom
   });
-
 
   // The 'building' layer in the mapbox-streets vector source contains building-height
   // data from OpenStreetMap.
@@ -91,7 +89,9 @@
   // Location Pointer 1
   map.loadImage('https://i.imgur.com/klIIaW1.png', function(error, image) {
       if (error) throw error;
+
       map.addImage('cat2', image);
+
       map.addLayer({
           "id": "points2",
           "type": "symbol",
@@ -113,10 +113,12 @@
               "icon-size": 0.25
           }
       });
+
   });
   // Location Pointer 2 (Highlighted)
   map.loadImage('https://i.imgur.com/MWOrh1i.png', function(error, image) {
       if (error) throw error;
+
       map.addImage('cat1', image);
       map.addLayer({
           "id": "points1",
@@ -139,9 +141,39 @@
               "icon-size": 0.25
           }
       });
+
+      // When a click event occurs on a feature in the places layer, open a popup at the
+    // location of the feature, with description HTML from its properties.
+    map.on('click', 'points1', function (e) {
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = "<strong><i class=\"computer icon\"></i>Breaking Down Those Tech Buzzwords</strong><p>Hosted by: Clement Lee<br>Location: Room 123<br></p>";
+
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+
+        var popup = new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+
+    });
+
+
+    // Change the cursor to a pointer when the mouse is over the places layer.
+    map.on('mouseenter', 'points1', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    // Change it back to a pointer when it leaves.
+    map.on('mouseleave', 'points1', function () {
+        map.getCanvas().style.cursor = '';
+    });
   });
   // END OF MAP ******************************************
-
 
 
   });
@@ -149,36 +181,23 @@
 
   </script>
 
-  <!-- <div class="ui labeled bottom attached three item icon menu">
-  <a class="item">
-    <i class="add icon" id="create-event-button"></i>
-    Create Event
-  </a>
-  <a class="item">
-    <i class="list icon" id="all-events-button"></i>
-    All Events
-  </a>
-  <a class="item">
-    <i class="user icon" id="my-events-button"></i>
-    My Events
-  </a>
-</div> -->
+<button onclick="window.location.href='/signin'" class="primary small ui icon button" id="sign-out-button">
+  <i class="icon sign out"></i>Sign Out
+</button>
 
 <div class="container">
-<div id="navbar">
-<!-- <button class="ui button" id="create-event-button"><i class="trash icon"></i>Delete Entry</button>
-<button class="ui button" id="all-events-button"><i class="trash icon"></i>Delete Entry</button>
-<button class="ui button" id="my-events-button"><i class="trash icon"></i>Delete Entry</button>  -->
-<button class="large circular ui icon button" id="create-event-button">
-  <i class="icon add"></i>
-</button>
-<button class="large circular ui icon button" id="all-events-button">
-  <i class="icon list"></i>
-</button>
-<button class="large circular ui icon button" id="my-events-button">
-  <i class="icon user"></i>
-</button>
-</div>
+
+  <div id="navbar">
+  <button class="green large circular ui icon button" id="create-event-button">
+    <i class="icon add"></i>
+  </button>
+  <button class="yellow large circular ui icon button" id="all-events-button">
+    <i class="icon list"></i>
+  </button>
+  <button class="orange large circular ui icon button" id="my-events-button">
+    <i class="icon user"></i>
+  </button>
+  </div>
 
   <!-- CREATE EVENT MODAL -->
   <div class="ui longer modal create-event">
@@ -188,10 +207,29 @@
     </div>
     <div class="scrolling content">
       <div class="ui form">
+
         <div class="field">
           <label>Event Title</label>
-          <input type="text" placeholder="Cryptocurrency 101">
+          <input type="text" placeholder="E.g. Cryptocurrency 101">
         </div>
+          <div class="field datetime">
+            <label>Date</label>
+            <input id="date-input" type="date">
+
+          </div>
+          <div class="field time">
+            <label>Start Time</label>
+            <input  type="time">
+          </div>
+          <div class="field time">
+            <label>End Time</label>
+            <input  type="time">
+          </div>
+
+          <script>
+          // $('#date-input').val('29 Apr 2018');
+          </script>
+
       <div id="locationField">
         <div class="field">
           <label>Venue Location</label>
@@ -246,7 +284,7 @@
           Career & Business
         </div>
         <div class="item">
-          <i class="keyboard icon"></i>
+          <img class="ui mini avatar image" src="img/robot.png" style="margin-left:-3.5;">
           Tech
         </div>
         <div class="item">
@@ -258,11 +296,11 @@
           Learning
         </div>
         <div class="item">
-          <i class="briefcase icon"></i>
+          <img class="ui mini avatar image" src="img/arts-icon.svg" style="width: 18px; margin-left:0px;">
           Arts & Culture
         </div>
         <div class="item">
-          <i class="briefcase icon"></i>
+          <img class="ui mini avatar image" src="img/others-icon.svg" style="width: 15px; margin-left:0px;">
           Others
         </div>
       </div>
@@ -271,8 +309,9 @@
     <br>
     <div class="field textarea">
       <label>Event Description</label>
-      <textarea name="original" type="text" placeholder="Tell us about your event"></textarea>
+      <textarea name="original" type="text" placeholder="Tell us about your event."></textarea>
     </div>
+
   </div>
 
   <script>
@@ -283,9 +322,8 @@
 
       </div>
     </div>
-
     <div class="actions">
-      <button id="create-event-close-button" class="ui button">Close</button>
+      <button class="ui right aligned olive button" onclick="window.location.href='/?create=true'">Submit</button>
     </div>
 
   </div>
@@ -301,43 +339,42 @@
       <h2><i class="briefcase icon"></i>Career & Business</h2>
         <a class="ui blue centered card" href="#">
           <div class="content">
-            <div class="header">Cryptocurrency 101</div>
-          <div class="description">
-            <span>29 April 2018, 4.30pm</span><br>
+            <div class="header">Pitch By NUS CS 254 students</div>
+          <div style="display:inline;"class="description">
+            <span>31 April 2018, 4.30pm</span><br>
             <span>Co-Science Park Room 123</span>
           </div>
         </div>
         <div class="extra content">
+          <button class="yellow large ui icon button" id="interest-button">
+            <i class="icon star"></i>13
+          </button>
+
+          <script>
+          $('#interest-button').click(function() {
+            $('#interest-button').html('<i class="icon star"></i>14');
+          });
+
+          </script>
           <div class="right floated author">
-            Hosted by: Manish Nair
-          </div>
-        </div>
-      </a>
-      <a class="ui blue centered card" href="#">
-        <div class="content">
-          <div class="header">Cryptocurrency 101</div>
-          <div class="description">
-            <span>29 April 2018, 4.30pm</span><br>
-            <span>Co-Science Park Room 123</span>
-          </div>
-        </div>
-        <div class="extra content">
-          <div class="right floated author">
-            Hosted by: Manish Nair
+            Hosted by: Alethea Toh
           </div>
         </div>
       </a>
 
-    <h2><i class="keyboard icon"></i>Tech</h2>
-      <a class="ui centered card" href="#">
+    <h2><img src="img/robot.png" id="robot-icon" alt="robot-icon">Tech</h2>
+      <a class="ui violet centered card" href="#">
         <div class="content">
-          <div class="header">Cryptocurrency 101</div>
+          <div class="header">Drone flying</div>
         <div class="description">
-          <span>29 April 2018, 4.30pm</span><br>
-          <span>Co-Science Park Room 123</span>
+          <span>1 June 2018, 4.30pm</span><br>
+          <span>Quad</span>
         </div>
       </div>
       <div class="extra content">
+        <button class="yellow large ui icon button" id="interest-button">
+          <i class="icon star"></i>9
+        </button>
         <div class="right floated author">
           Hosted by: Manish Nair
         </div>
@@ -345,15 +382,18 @@
     </a>
 
   <h2><i class="heartbeat icon"></i>Sports & Wellness</h2>
-    <a class="ui centered card" href="#">
+    <a class="ui pink centered card" href="#">
       <div class="content">
-        <div class="header">Cryptocurrency 101</div>
+        <div class="header">Yoga on the lawn</div>
       <div class="description">
-        <span>29 April 2018, 4.30pm</span><br>
-        <span>Co-Science Park Room 123</span>
+        <span>1 May 2018, 4.30pm</span><br>
+        <span>Lawn</span>
       </div>
     </div>
     <div class="extra content">
+      <button class="yellow large ui icon button" id="interest-button">
+        <i class="icon star"></i>2
+      </button>
       <div class="right floated author">
         Hosted by: Manish Nair
       </div>
@@ -361,31 +401,56 @@
   </a>
 
 <h2><i class="book icon"></i>Learning</h2>
-  <a class="ui centered card" href="#">
+  <a class="ui olive centered card" href="#">
     <div class="content">
-      <div class="header">Cryptocurrency 101</div>
+      <div class="header">Discussing cambridge analytica</div>
     <div class="description">
       <span>29 April 2018, 4.30pm</span><br>
       <span>Co-Science Park Room 123</span>
     </div>
   </div>
   <div class="extra content">
+    <button class="yellow large ui icon button" id="interest-button">
+      <i class="icon star"></i>20
+    </button>
     <div class="right floated author">
       Hosted by: Manish Nair
     </div>
   </div>
 </a>
 
-<h2><img src="img/others-icon.svg" id="others-icon" alt="others-icon">Tech</h2>
-  <a class="ui centered card" href="#">
+<h2><img src="img/arts-icon.svg" id="arts-icon" alt="arts-icon">Arts & Culture</h2>
+  <a class="ui red centered card" href="#">
     <div class="content">
-      <div class="header">Cryptocurrency 101</div>
+      <div class="header">Guitar jamming session</div>
     <div class="description">
-      <span>29 April 2018, 4.30pm</span><br>
+      <span>30 April 2018, 4.30pm</span><br>
+      <span>BBQ Pit (I bought wings)</span>
+    </div>
+  </div>
+  <div class="extra content">
+    <button class="yellow large ui icon button" id="interest-button">
+      <i class="icon star"></i>0
+    </button>
+    <div class="right floated author">
+      Hosted by: Alethea Toh
+    </div>
+  </div>
+</a>
+
+<h2><img src="img/others-icon.svg" id="others-icon" alt="others-icon">Others</h2>
+  <a class="ui orange centered card" href="#">
+    <div class="content">
+      <div class="header">KopiTalk</div>
+    <div class="description">
+      <span>29 April 2018, 6pm</span><br>
       <span>Co-Science Park Room 123</span>
     </div>
   </div>
   <div class="extra content">
+    <button class="yellow large ui icon button" id="interest-button">
+      <i class="icon star"></i>5
+    </button>
     <div class="right floated author">
       Hosted by: Manish Nair
     </div>
@@ -393,9 +458,7 @@
 </a>
 
 </div>
-<div class="actions">
-  <button id="all-events-close-button" class="ui button">Close</button>
-</div>
+
 </div>
 
 <!-- MY EVENTS -->
@@ -407,32 +470,13 @@
   <div class="scrolling content">
 
     <h2><i class="briefcase icon"></i>Career & Business</h2>
-      <a class="ui centered card" href="#">
+      <a class="ui blue centered card" href="#">
         <div class="content">
-          <div class="header">Cryptocurrency 101</div>
-        <div class="description">
-          <span>29 April 2018, 4.30pm</span>
-        </div>
-        <div class="description">
-          <span>Co-Science Park Room 123</span>
-        </div>
-      </div>
-      <div class="extra content">
-        <div class="right floated author">
-          <button class="ui green button"><i class="pencil icon"></i>Edit</button>
-          <button class="ui red button"><i class="trash icon"></i>Delete</button>
-        </div>
-      </div>
-    </a>
-    <a class="ui centered card" href="#">
-      <div class="content">
-        <div class="header">Cryptocurrency 101</div>
-        <div class="description">
-          <span>29 April 2018, 4.30pm</span>
-        </div>
-        <div class="description">
-          <span>Co-Science Park Room 123</span>
-        </div>
+          <div class="header">Pitch By NUS CS 254 students</div>
+          <div class="description">
+            <span>31 April 2018, 4.30pm</span><br>
+            <span>Co-Science Park Room 123</span>
+          </div>
       </div>
       <div class="extra content">
         <div class="right floated author">
@@ -443,17 +487,12 @@
     </a>
 
 <h2><i class="heartbeat icon"></i>Sports & Wellness</h2>
-  <a class="ui centered card" href="#">
+  <a class="ui pink centered card" href="#">
     <div class="content">
-      <div class="header">Cryptocurrency 101</div>
-      <!-- <div class="meta">
-      <span class="category">Animals</span>
-    </div> -->
+      <div class="header">Yoga on the lawn</div>
     <div class="description">
-      <span>29 April 2018, 4.30pm</span>
-    </div>
-    <div class="description">
-      <span>Co-Science Park Room 123</span>
+      <span>1 May 2018, 4.30pm</span><br>
+      <span>Lawn</span>
     </div>
   </div>
   <div class="extra content">
@@ -467,11 +506,9 @@
 <h2><i class="book icon"></i>Learning</h2>
 <a class="ui centered card" href="#">
   <div class="content">
-    <div class="header">Cryptocurrency 101</div>
+    <div class="header">Discussing cambridge analytica</div>
   <div class="description">
-    <span>29 April 2018, 4.30pm</span>
-  </div>
-  <div class="description">
+    <span>29 April 2018, 4.30pm</span><br>
     <span>Co-Science Park Room 123</span>
   </div>
 </div>
@@ -485,13 +522,17 @@
 
 
 </div>
-  <div class="actions">
+  <!-- <div class="actions">
     <button id="my-events-close-button" class="ui button">Close</button>
-  </div>
+  </div> -->
 </div>
 
 
 <script>
+
+// $('#interest-button').click(function() {
+//   this.attr('display', 'none');
+// });
 
 // DISPLAY CREATE EVENT MODAL
 $(function(){
@@ -612,6 +653,8 @@ $(function(){
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYzIzHZUMxbmbGWmWNvF6C0Ojzi3XTN1E&libraries=places&callback=initAutocomplete"
         async defer></script>
+
+
 
 </div>
 

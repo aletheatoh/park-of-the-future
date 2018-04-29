@@ -1,9 +1,35 @@
 body {
-    background-color: pink;
+    /* background-color: #CCFF90; */
 }
 
-#signin-form {
-  margin-top: 100px;
+#tree-talk-logo {
+  width: 450px;
+  display: block;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -o-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  /* background: #999; */
+  text-align: center;
+}
+
+#tree-talk-logo-container {
+  margin: 0 auto;
+  display: block;
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+}
+
+
+#sign-in-container {
+  margin-top: 450px;
   /* width: 1000px;
   height: 500px;
   position: absolute;
@@ -15,9 +41,64 @@ body {
   text-align: center; */
 }
 
-#others-icon {
+.datetime {
+  /* padding: 0; */
+  /* width: 150px; */
+  /* display: inline; */
+  /* margin-bottom: 3px; */
+}
+
+.time {
+  /* margin-top: 3px; */
+  /* width: 80px; */
+}
+
+.ui.huge.form {
+  font-size: 50px;
+}
+
+.sign-in-label {
+  margin-bottom: 5px;
+  padding: 3px;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  /* text-align: left !important; */
+}
+
+.sign-in, .password {
+  margin-top: 12px;
+  margin-bottom: 13px;
+}
+
+/* .password {
+  margin-bottom: 10px;
+} */
+
+button:focus, button:active {
+  outline: none;
+  border: none;
+}
+
+#others-icon, #arts-icon {
   width: 25px;
-  margin-right: 5px;
+  margin-right: 7px;
+}
+
+#robot-icon {
+  width: 30px;
+  margin-left: -4px;
+  margin-right: 4px;
+}
+
+#sign-out-button {
+  /* margin-bottom: 700px;
+  margin-left: -5;
+  margin-right: 100; */
+  position: absolute;
+  margin-left: 9px;
+  margin-top: 9px;
 }
 
 a {
@@ -32,21 +113,37 @@ a {
   position: absolute;
   margin: 0 auto;
   bottom: 0;
-  background-color: pink;
+  /* background-color: pink; */
 }
 
+.ui.success.message {
+  margin-bottom: 80px;
+}
 
 #navbar {
   text-align: center;
-  margin: 0 auto;
+  /* margin: 0 auto; */
+
+  margin-left: -5px;
   position: absolute;
   bottom: 12px;
   /* bottom: 60px; */
   width: 100%;
-  /* height: 100%;
-  background-color: pink; */
 }
 
-.scrolling.content {
+/* .modal {
   height: 100%;
+  width: 300px;
+} */
+
+.scrolling.content {
+  position: relative;
+  /* margin: 0 auto; */
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 750px;
+  width: 400px;
 }

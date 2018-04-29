@@ -45,10 +45,10 @@ app.set('view engine', 'handlebars');
 app.use(express.static('public'));
 
 // Root GET request (it doesn't belong in any controller file)
-app.get('/', (request, response) => {
-
-  response.render('signin');
-});
+// app.get('/signin', (request, response) => {
+//
+//   response.render('signin');
+// });
 
 app.get('/home', (request, response) => {
 
@@ -60,9 +60,12 @@ app.get('/add', (request, response) => {
   response.render('add');
 });
 
-app.get('/map', (request, response) => {
-
-  response.render('clement');
+app.get('/', (request, response) => {
+  var create = request.query.create;
+  if (create === "true") {
+    response.render('new');
+  }
+  else response.render('signin');
 });
 
 // Catch all unmatched requests and return 404 not found page
