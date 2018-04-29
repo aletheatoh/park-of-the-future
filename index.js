@@ -45,10 +45,10 @@ app.set('view engine', 'handlebars');
 app.use(express.static('public'));
 
 // Root GET request (it doesn't belong in any controller file)
-// app.get('/signin', (request, response) => {
-//
-//   response.render('signin');
-// });
+app.get('/signin', (request, response) => {
+
+  response.render('signin');
+});
 
 app.get('/home', (request, response) => {
 
