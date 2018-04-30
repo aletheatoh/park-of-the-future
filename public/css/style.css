@@ -1,6 +1,4 @@
-body {
-    /* background-color: #CCFF90; */
-}
+html, body {margin: 0; height: 100%; overflow: hidden}
 
 #tree-talk-logo {
   width: 450px;
@@ -14,7 +12,6 @@ body {
   -moz-transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  /* background: #999; */
   text-align: center;
 }
 
@@ -27,54 +24,20 @@ body {
   position: relative;
 }
 
-
-#sign-in-container {
-  margin-top: 450px;
-  /* width: 1000px;
-  height: 500px;
+#signin-form {
+  margin-left: 12px;
+  margin-right: 12px;
   position: absolute;
   top:0;
   bottom: 0;
   left: 0;
   right: 0;
-  margin: auto;
-  text-align: center; */
+  text-align: center;
 }
 
-.datetime {
-  /* padding: 0; */
-  /* width: 150px; */
-  /* display: inline; */
-  /* margin-bottom: 3px; */
+.ui.form {
+  font-size: 18px;
 }
-
-.time {
-  /* margin-top: 3px; */
-  /* width: 80px; */
-}
-
-.ui.huge.form {
-  font-size: 50px;
-}
-
-.sign-in-label {
-  margin-bottom: 5px;
-  padding: 3px;
-  margin-left: 0;
-  margin-right: 0;
-  padding-left: 0;
-  padding-right: 0;
-  /* text-align: left !important; */
-}
-
-.sign-in, .password {
-  margin-top: 12px;
-  margin-bottom: 13px;
-}
-
-/* .password {
-  margin-bottom: 10px;
-} */
 
 button:focus, button:active {
   outline: none;
@@ -131,10 +94,6 @@ a {
   width: 100%;
 }
 
-/* .modal {
-  height: 100%;
-  width: 300px;
-} */
 
 .scrolling.content {
   position: relative;

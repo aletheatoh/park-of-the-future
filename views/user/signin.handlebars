@@ -8,11 +8,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Login</title>
 </head>
 <body style="background-color: #FFECB3;">
 
-<div id="sign-in-container">
+<div id="signin-form" style="  margin-top: 20px;">
   <div id="tree-talk-logo-container">
     <img id="tree-talk-logo" src="img/cookie-logo.png">
   </div>
@@ -26,27 +27,27 @@
     </div>
   </div> -->
 
-  <div id="signin-form" class="ui center aligned grid">
-    <div class="eight wide column">
+  <div class="ui center aligned grid">
+    <div class="column">
       <!-- <h1>Sign in to your account</h2> -->
         <div class="ui stackable segment">
 
           <div class="ui large form">
             <div class="required field">
-              <label class"sign-in-label" style="font-size: 25px;">Username</label>
+              <label class"sign-in-label" >Username</label>
               <div class="sign-in ui left icon input">
                 <i class="user icon"></i>
-                <input style="font-size: 20px;" id="username-input" type="text" name="name" placeholder="Username">
+                <input id="username-input" type="text" name="name" placeholder="Username">
               </div>
             </div>
             <div class="required field">
-              <label class"sign-in-label" style="font-size: 25px;">Password</label>
+              <label class"sign-in-label" >Password</label>
               <div class="password ui left icon input">
                 <i class="lock icon"></i>
-                <input style="font-size: 20px;" id="password-input" type="password" name="password" placeholder="Password">
+                <input id="password-input" type="password" name="password" placeholder="Password">
               </div>
             </div>
-            <button class="ui green compact large button" style="font-size: 25px; margin: 10 auto;" onclick="window.location.href='/home'"><i class="sign in icon"></i>Sign in</button>
+            <button class="ui green compact large button" style="margin: 10 auto;" onclick="window.location.href='/home'"><i class="sign in icon"></i>Sign in</button>
           </div>
         </div>
 
@@ -56,7 +57,7 @@
           </ul>
         </div>
 
-        <div style="font-size: 18px;" class="ui bottom attached warning message">
+        <div class="ui bottom attached warning message">
           <p>Or, sign in with your social media account</p>
           <button class="ui circular facebook icon button">
             <i class="facebook icon"></i>
