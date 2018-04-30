@@ -9,8 +9,9 @@
  */
 
  const pg = require('pg');
-
  const url = require('url');
+
+const user = require('./models/user');
 
  //check to see if we have this heroku environment variable
 if( process.env.DATABASE_URL ){
@@ -49,5 +50,6 @@ else {
  });
 
  module.exports = {
-   pool: pool
+   pool: pool,
+   user: user(pool)
  };
