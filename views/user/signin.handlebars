@@ -13,42 +13,34 @@
 </head>
 <body style="background-color: #FFECB3;">
 
-<div id="signin-form" style="  margin-top: 20px;">
-  <div id="tree-talk-logo-container">
-    <img id="tree-talk-logo" src="img/cookie-logo.png">
-  </div>
-
-
-  <!-- <div class="ui large form">
-    <div class="six wide field">
-      <label style="font-size: 30px;">First Name</label>
-      <br>
-      <input style="font-size: 30px;" type="text" name="first-name" placeholder="First Name">
+  <div id="signin-form" style="  margin-top: 20px;">
+    <div id="tree-talk-logo-container">
+      <img id="tree-talk-logo" src="img/cookie-logo.png">
     </div>
-  </div> -->
 
-  <div class="ui center aligned grid">
-    <div class="column">
-      <!-- <h1>Sign in to your account</h2> -->
+    <div class="ui center aligned grid">
+      <div class="column">
+        <h2>Sign in to your account</h2>
         <div class="ui stackable segment">
-
-          <div class="ui large form">
-            <div class="required field">
-              <label class"sign-in-label" >Username</label>
-              <div class="sign-in ui left icon input">
-                <i class="user icon"></i>
-                <input id="username-input" type="text" name="name" placeholder="Username">
+          <form class="ui large form" method="POST" action="/users/login">
+            <div class="ui large form">
+              <div class="required field">
+                <label class"sign-in-label" >Username</label>
+                <div class="sign-in ui left icon input">
+                  <i class="user icon"></i>
+                  <input id="username-input" type="text" name="username" placeholder="Username">
+                </div>
               </div>
-            </div>
-            <div class="required field">
-              <label class"sign-in-label" >Password</label>
-              <div class="password ui left icon input">
-                <i class="lock icon"></i>
-                <input id="password-input" type="password" name="password" placeholder="Password">
+              <div class="required field">
+                <label class"sign-in-label" >Password</label>
+                <div class="password ui left icon input">
+                  <i class="lock icon"></i>
+                  <input id="password-input" type="password" name="password" placeholder="Password">
+                </div>
               </div>
+              <button class="ui green compact large button" style="margin: 10 auto;" onclick="window.location.href='/home'"><i class="sign in icon"></i>Sign in</button>
             </div>
-            <button class="ui green compact large button" style="margin: 10 auto;" onclick="window.location.href='/home'"><i class="sign in icon"></i>Sign in</button>
-          </div>
+          </form>
         </div>
 
         <!-- FORM VALIDATOR -->
@@ -68,7 +60,7 @@
           <button class="ui circular twitter icon button">
             <i class="twitter icon"></i>
           </button>
-          <p id="new-to-us">New to us? <a href="#"> Sign Up</a> here.</p>
+          <p id="new-to-us">New to us? <a href="/users/new"> Sign Up</a> here.</p>
         </div>
 
       </div>
@@ -77,31 +69,31 @@
 
   </div>
 
-    <script>
+  <script>
 
-    // validate form
-    $( "form" ).submit(function( event ) {
-      // $('#new-to-us').hide();
-      // if both a username and password have been entered
-      if ( $('#username-input').val() !== "" && $('#password-input').val() !== "") {
-        return;
-      }
+  // validate form
+  $( "form" ).submit(function( event ) {
+    // $('#new-to-us').hide();
+    // if both a username and password have been entered
+    if ( $('#username-input').val() !== "" && $('#password-input').val() !== "") {
+      return;
+    }
 
-      // display error message
-      $('#form-validator').show();
-      $( "#form-validator-list" ).empty();
-      if ( $('#username-input').val() == "") {
-        $( "#form-validator-list" ).append('<li>Please enter a username</li>');
-      }
+    // display error message
+    $('#form-validator').show();
+    $( "#form-validator-list" ).empty();
+    if ( $('#username-input').val() == "") {
+      $( "#form-validator-list" ).append('<li>Please enter a username</li>');
+    }
 
-      if ( $('#password-input').val() == "") {
-        $( "#form-validator-list" ).append('<li>Please enter a password</li>');
-      }
+    if ( $('#password-input').val() == "") {
+      $( "#form-validator-list" ).append('<li>Please enter a password</li>');
+    }
 
-      event.preventDefault();
-    });
+    event.preventDefault();
+  });
 
-    </script>
+  </script>
 
-  </body>
-  </html>
+</body>
+</html>

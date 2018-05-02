@@ -8,7 +8,7 @@
  * to be imported (using `require(...)`) in `index.js`.
  */
  const users = require('./controllers/user');
- // const events = require('./controllers/event');
+ const events = require('./controllers/event');
 
  module.exports = (app, db) => {
    /*
@@ -17,16 +17,19 @@
     *  =========================================
     */
    // CRUD users
-   app.get('/users/new', users.newForm);
-   app.post('/users', users.create(db));
+   app.get('/users/new', users.newForm); // done
+   app.post('/users', users.create(db)); // done
    app.get('/users/:id/edit', users.updateForm(db));
    app.put('/users/:id/edit', users.update(db));
 
    // Authentication
-   app.post('/users/logout', users.logout);
-   app.get('/users/login', users.loginForm);
-   app.post('/users/login', users.login(db));
+   app.post('/users/logout', users.logout); // done
+   app.get('/users/login', users.loginForm); // done
+   app.post('/users/login', users.login(db)); // done
    app.get('/users/:id', users.get(db));
+
+   app.post('/events', events.create(db)); // done
+   app.get('/test', events.homePage(db));
 
   //    // Redirect the user to Facebook for authentication.  When complete,
   // // Facebook will redirect the user back to the application at
@@ -43,7 +46,7 @@
 
    /*
     *  =========================================
-    *  Articles
+    *  Events
     *  =========================================
     */
    // CRUD articles

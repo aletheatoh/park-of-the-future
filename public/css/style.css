@@ -1,7 +1,23 @@
-html, body {margin: 0; height: 100%; overflow: hidden}
+html, body {margin: 0; height: 100%; width: 100%; overflow: hidden}
+
+#map { position:absolute; top:0; width:100%; height: 100%; z-index: 0; }
+
+/* set up our 3D space */
+#map,
+#map * {
+ -webkit-transform-style:preserve-3d;
+ transform-style:preserve-3d;
+}
+
+/* Optional: this will help you see what's going on as we build the tilted view, but can be removed */
+.marker {
+ -webkit-transform:translateZ(1px);
+ transform:translateZ(1px);
+}
+
 
 #tree-talk-logo {
-  width: 450px;
+  width: 350px;
   display: block;
   padding: 40px;
   position: absolute;
@@ -18,8 +34,8 @@ html, body {margin: 0; height: 100%; overflow: hidden}
 #tree-talk-logo-container {
   margin: 0 auto;
   display: block;
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 225px;
   overflow: hidden;
   position: relative;
 }
@@ -56,12 +72,9 @@ button:focus, button:active {
 }
 
 #sign-out-button {
-  /* margin-bottom: 700px;
-  margin-left: -5;
-  margin-right: 100; */
   position: absolute;
-  margin-left: 9px;
-  margin-top: 9px;
+  margin-left: 10px;
+  margin-top: 11px;
 }
 
 a {
@@ -84,14 +97,11 @@ a {
 }
 
 #navbar {
-  text-align: center;
-  /* margin: 0 auto; */
-
-  margin-left: -5px;
-  position: absolute;
-  bottom: 12px;
-  /* bottom: 60px; */
-  width: 100%;
+  position:absolute;
+ /* remove this and left:50% for desktop */
+ margin-left:-150px;
+ bottom:10px;
+ left:72%;
 }
 
 

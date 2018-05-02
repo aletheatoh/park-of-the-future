@@ -12,6 +12,7 @@
  const url = require('url');
 
 const user = require('./models/user');
+const event = require('./models/event');
 
  //check to see if we have this heroku environment variable
 if( process.env.DATABASE_URL ){
@@ -51,5 +52,6 @@ else {
 
  module.exports = {
    pool: pool,
-   user: user(pool)
+   user: user(pool),
+   event: event(pool)
  };

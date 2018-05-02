@@ -45,15 +45,10 @@ require('./routes')(app, db);
 app.use(express.static('public'));
 
 // Root GET request (it doesn't belong in any controller file)
-app.get('/signin', (request, response) => {
-
-  response.render('user/signin');
-});
-
-app.get('/home', (request, response) => {
-
-  response.render('home');
-});
+// app.get('/signin', (request, response) => {
+//
+//   response.render('user/signin');
+// });
 
 app.get('/', (request, response) => {
   var create = request.query.create;

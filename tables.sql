@@ -1,13 +1,13 @@
--- DROP TABLE users;
--- DROP TABLE events;
+DROP TABLE users;
+DROP TABLE events;
+
 -- create users table
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
-  name varchar(255),
   username varchar(255),
   email varchar(255),
   password varchar(255),
-  num_events INTEGER,
+  num_events INTEGER DEFAULT 0,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -22,7 +22,9 @@ CREATE TABLE IF NOT EXISTS events (
   starttime TIME,
   endtime TIME,
   description TEXT,
-  num_interests INTEGER,
+  num_interests INTEGER DEFAULT 0,
+  lat FLOAT,
+  lng FLOAT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

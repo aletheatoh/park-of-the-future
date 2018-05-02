@@ -72,11 +72,15 @@ const create = (db) => {
           console.log('User could not be created');
         }
 
+        var context = {
+          username: request.body.username,
+          newUser: true
+        }
+
         // redirect to home page after creation
-        response.redirect('/');
+        response.render('home', context);
       });
     });
-
 
   };
 };
@@ -176,8 +180,12 @@ const login = (db) => {
           response.cookie('email', request.body.email);
           response.cookie('user-id', queryResult.rows[0].id);
 
-          // response.render('home', context);
-          response.redirect('/?returninguser=true');
+          var context = {
+            username: request.body.username,
+            returningUser: true
+          }
+
+          response.render('home', context);
           return;
         }
 
