@@ -1,8 +1,8 @@
 {
-  "name": "park-of-the-future",
+  "name": "cookie-talk",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/aletheatoh/park-of-the-future.git",
+  "repository": "https://github.com/aletheatoh/cookie-talk.git",
   "author": "Alethea Toh <alethea.toh@duke.edu>",
   "license": "MIT",
   "scripts": {
