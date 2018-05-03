@@ -51,11 +51,32 @@ app.use(express.static('public'));
 // });
 
 app.get('/', (request, response) => {
-  var create = request.query.create;
-  if (create === "true") {
-    response.render('event/new');
+
+  // retrieve cookies
+  let loggedIn = request.cookies['loggedIn'];
+  let username = request.cookies['username'];
+  let user_id = request.cookies['user-id'];
+
+  // redirect user to sign in page if not signed in
+  if (loggedIn === undefined) response.render('user/signin');
+
+  else {
+    // load all events to be displayed on the map
+    db.event.getAllEvents((error, queryResult) => {
+
+      if (error) {
+        console.error('error getting event:', error);
+        response.sendStatus(500);
+      }
+
+      var context = {
+        events: queryResult.rows,
+        username: username
+      }
+
+      response.render('home', context);
+    });
   }
-  else response.render('user/signin');
 });
 
 // Catch all unmatched requests and return 404 not found page

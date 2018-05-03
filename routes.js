@@ -29,6 +29,8 @@
    app.get('/users/:id', users.get(db));
 
    app.post('/events', events.create(db)); // done
+
+   // test for homepage
    app.get('/test', events.homePage(db));
 
   //    // Redirect the user to Facebook for authentication.  When complete,
@@ -58,6 +60,5 @@
    // app.get('/articles/:id', articles.get(db)); // done
    // app.delete('/articles/:id', articles.deleteArticle(db));
    // app.delete('/deletearticle/:article_id/delete/:folder_id', folders.removeArticle(db));
-
 
  };
