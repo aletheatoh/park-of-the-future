@@ -57,7 +57,7 @@ const create = (db) => {
             response.sendStatus(500);
           }
 
-          if (queryResult.rowCount >= 1) {
+          if (res.rowCount >= 1) {
             console.log('User created successfully');
 
             response.cookie('loggedIn', true);
