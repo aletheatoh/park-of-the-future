@@ -246,8 +246,9 @@ function uniq(a) {
  const create = (db) => {
    return (request, response) => {
      let user_id = parseInt(request.cookies['user-id']);
+     let username = request.cookies['username'];
 
-     db.event.create(user_id, request.body, (error, queryResult) => {
+     db.event.create(user_id, username, request.body, (error, queryResult) => {
        // queryResult of creation is not useful to us, so we ignore it
 
        if (error) {
@@ -259,8 +260,8 @@ function uniq(a) {
          create_success: true
        }
 
-       // response.render('home', context);
-       response.send(request.body);
+       response.redirect('/?create_success=true');
+       // response.send(request.body);
 
      });
    };

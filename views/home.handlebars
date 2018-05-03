@@ -181,7 +181,7 @@
     {{#each events}}
     map.loadImage('https://i.imgur.com/MWOrh1i.png', function(error, image) {
       if (error) throw error;
-      console.log({{this.lat}});
+
       map.addImage('{{this.name}}', image);
       map.addLayer({
         "id": '{{this.id}}',
@@ -220,12 +220,20 @@
 
   <div class="container">
 
-    <div class="ui success message">
+    <div id="success-message" class="ui success message">
       <i class="close icon"></i>
       <div class="header">
         Welcome {{#if returningUser}} back {{/if}} to CookieTalk, {{username}}!
       </div>
       <p>Start exploring what's around you!</p>
+    </div>
+
+    <div id="create-success-message" class="ui success message" style="display:none;">
+      <i class="close icon"></i>
+      <div class="header">
+        Your event was successfully created.
+      </div>
+      <p>Keep exploring what's going on around you!</p>
     </div>
 
     <div id="navbar">
@@ -271,8 +279,8 @@
             <div id="locationField">
               <div class="field">
                 <label>Venue Location</label>
-                <input id="autocomplete" placeholder="Enter your address"
-                onFocus="geolocate()" onBlur="getCoordinates()" type="text"></input>
+                <input name="venue" id="autocomplete" placeholder="Enter your address"
+                onFocus="geolocate()" type="text"></input>
                 <input id="lat-input" name="lat" type="text" style="display:none;"></input>
                 <input id="lng-input" name="lng" type="text" style="display:none;"></input>
               </div>
@@ -281,20 +289,13 @@
 
             <div class="field">
               <label>Event Category</label>
-              <!-- <select name="cars">
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="fiat">Fiat</option>
-                <option value="audi">Audi</option>
-              </select> -->
-
               <div class="ui fluid selection dropdown">
                 <input name="category" type="hidden" placeholder="Event Category">
                 <i class="dropdown icon"></i>
                 <div class="default text">Select a Category</div>
 
                 <div class="menu">
-                  <div class="item" value="Career and Business">
+                  <div class="item" data-value="Career and Business">
                     <i class="briefcase icon"></i>
                     Career & Business
                   </div>
@@ -341,7 +342,7 @@
       </div>
 
       <div class="actions">
-        <button class="ui right aligned olive button" onclick="$('form#create-event-form').submit();">Submit</button>
+        <button class="ui right aligned olive button" onclick="submitForm()">Submit</button>
       </div>
     </div>
 
@@ -353,13 +354,17 @@
       </div>
       <div class="scrolling content">
 
+        <!-- CAREER & BUSINESS -->
         <h2><i class="briefcase icon"></i>Career & Business</h2>
+        {{#if career}}
+        {{#each career}}
         <a class="ui blue centered card" href="#">
           <div class="content">
-            <div class="header">Pitch By NUS CS 254 students</div>
-            <div style="display:inline;"class="description">
-              <span>31 April 2018, 4.30pm</span><br>
-              <span>Co-Science Park Room 123</span>
+            <div class="header">{{this.name}}</div>
+            <div class="description">
+              <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
+              <span><b>Where: </b>{{this.venue}}</span><br>
+              <span><b>Details: </b>{{this.description}}</span>
             </div>
           </div>
           <div class="extra content">
@@ -374,18 +379,25 @@
 
             </script>
             <div class="right floated author">
-              Hosted by: Alethea Toh
+              Hosted by: {{this.organizer_name}}
             </div>
           </div>
         </a>
+        {{/each}}
+        {{else}}
+        <p>There are no career events</p>
+        {{/if}}
 
         <h2><img src="img/robot.png" id="robot-icon" alt="robot-icon">Tech</h2>
+        {{#if tech}}
+        {{#each tech}}
         <a class="ui violet centered card" href="#">
           <div class="content">
-            <div class="header">Drone flying</div>
+            <div class="header">{{this.name}}</div>
             <div class="description">
-              <span>1 June 2018, 4.30pm</span><br>
-              <span>Quad</span>
+              <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
+              <span><b>Where: </b>{{this.venue}}</span><br>
+              <span><b>Details: </b>{{this.description}}</span>
             </div>
           </div>
           <div class="extra content">
@@ -393,18 +405,25 @@
               <i class="icon star"></i>9
             </button>
             <div class="right floated author">
-              Hosted by: Manish Nair
+              Hosted by: {{this.organizer_name}}
             </div>
           </div>
         </a>
+        {{/each}}
+        {{else}}
+        <p>There are no tech events</p>
+        {{/if}}
 
         <h2><i class="heartbeat icon"></i>Sports & Wellness</h2>
+        {{#if sports}}
+        {{#each sports}}
         <a class="ui pink centered card" href="#">
           <div class="content">
-            <div class="header">Yoga on the lawn</div>
+            <div class="header">{{this.name}}</div>
             <div class="description">
-              <span>1 May 2018, 4.30pm</span><br>
-              <span>Lawn</span>
+              <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
+              <span><b>Where: </b>{{this.venue}}</span><br>
+              <span><b>Details: </b>{{this.description}}</span>
             </div>
           </div>
           <div class="extra content">
@@ -412,18 +431,25 @@
               <i class="icon star"></i>2
             </button>
             <div class="right floated author">
-              Hosted by: Manish Nair
+              Hosted by: {{this.organizer_name}}
             </div>
           </div>
         </a>
+        {{/each}}
+        {{else}}
+        <p>There are no sports and wellness events</p>
+        {{/if}}
 
         <h2><i class="book icon"></i>Learning</h2>
+        {{#if learning}}
+        {{#each learning}}
         <a class="ui olive centered card" href="#">
           <div class="content">
-            <div class="header">Discussing cambridge analytica</div>
+            <div class="header">{{this.name}}</div>
             <div class="description">
-              <span>29 April 2018, 4.30pm</span><br>
-              <span>Co-Science Park Room 123</span>
+              <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
+              <span><b>Where: </b>{{this.venue}}</span><br>
+              <span><b>Details: </b>{{this.description}}</span>
             </div>
           </div>
           <div class="extra content">
@@ -431,18 +457,25 @@
               <i class="icon star"></i>20
             </button>
             <div class="right floated author">
-              Hosted by: Manish Nair
+              Hosted by: {{this.organizer_name}}
             </div>
           </div>
         </a>
+        {{/each}}
+        {{else}}
+        <p>There are no learning events</p>
+        {{/if}}
 
         <h2><img src="img/arts-icon.svg" id="arts-icon" alt="arts-icon">Arts & Culture</h2>
+        {{#if arts}}
+        {{#each arts}}
         <a class="ui red centered card" href="#">
           <div class="content">
-            <div class="header">Guitar jamming session</div>
+            <div class="header">{{this.name}}</div>
             <div class="description">
-              <span>30 April 2018, 4.30pm</span><br>
-              <span>BBQ Pit (I bought wings)</span>
+              <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
+              <span><b>Where: </b>{{this.venue}}</span><br>
+              <span><b>Details: </b>{{this.description}}</span>
             </div>
           </div>
           <div class="extra content">
@@ -450,18 +483,25 @@
               <i class="icon star"></i>0
             </button>
             <div class="right floated author">
-              Hosted by: Alethea Toh
+              Hosted by: {{this.organizer_name}}
             </div>
           </div>
         </a>
+        {{/each}}
+        {{else}}
+        <p>There are no arts and culture events</p>
+        {{/if}}
 
         <h2><img src="img/others-icon.svg" id="others-icon" alt="others-icon">Others</h2>
+        {{#if others}}
+        {{#each others}}
         <a class="ui orange centered card" href="#">
           <div class="content">
-            <div class="header">KopiTalk</div>
+            <div class="header">{{this.name}}</div>
             <div class="description">
-              <span>29 April 2018, 6pm</span><br>
-              <span>Co-Science Park Room 123</span>
+              <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
+              <span><b>Where: </b>{{this.venue}}</span><br>
+              <span><b>Details: </b>{{this.description}}</span>
             </div>
           </div>
           <div class="extra content">
@@ -469,10 +509,14 @@
               <i class="icon star"></i>5
             </button>
             <div class="right floated author">
-              Hosted by: Manish Nair
+              Hosted by: {{this.organizer_name}}
             </div>
           </div>
         </a>
+        {{/each}}
+        {{else}}
+        <p>There are no other events</p>
+        {{/if}}
 
       </div>
 
@@ -487,12 +531,15 @@
       <div class="scrolling content">
 
         <h2><i class="briefcase icon"></i>Career & Business</h2>
+        {{#if my_career}}
+        {{#each my_career}}
         <a class="ui blue centered card" href="#">
           <div class="content">
-            <div class="header">Pitch By NUS CS 254 students</div>
+            <div class="header">{{this.name}}</div>
             <div class="description">
-              <span>31 April 2018, 4.30pm</span><br>
-              <span>Co-Science Park Room 123</span>
+              <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
+              <span><b>Where: </b>{{this.venue}}</span><br>
+              <span><b>Details: </b>{{this.description}}</span>
             </div>
           </div>
           <div class="extra content">
@@ -502,14 +549,45 @@
             </div>
           </div>
         </a>
+        {{/each}}
+        {{else}}
+        <p>You have not organized any career and business events</p>
+        {{/if}}
+
+        <h2><img src="img/robot.png" id="robot-icon" alt="robot-icon">Tech</h2>
+        {{#if my_tech}}
+        {{#each my_tech}}
+        <a class="ui violet centered card" href="#">
+          <div class="content">
+            <div class="header">{{this.name}}</div>
+            <div class="description">
+              <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
+              <span><b>Where: </b>{{this.venue}}</span><br>
+              <span><b>Details: </b>{{this.description}}</span>
+            </div>
+          </div>
+          <div class="extra content">
+            <div class="right floated author">
+              <button class="ui green button"><i class="pencil icon"></i>Edit</button>
+              <button class="ui red button"><i class="trash icon"></i>Delete</button>
+            </div>
+          </div>
+        </a>
+        {{/each}}
+        {{else}}
+        <p>You have not organized any tech events</p>
+        {{/if}}
 
         <h2><i class="heartbeat icon"></i>Sports & Wellness</h2>
+        {{#if my_sports}}
+        {{#each my_sports}}
         <a class="ui pink centered card" href="#">
           <div class="content">
-            <div class="header">Yoga on the lawn</div>
+            <div class="header">{{this.name}}</div>
             <div class="description">
-              <span>1 May 2018, 4.30pm</span><br>
-              <span>Lawn</span>
+              <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
+              <span><b>Where: </b>{{this.venue}}</span><br>
+              <span><b>Details: </b>{{this.description}}</span>
             </div>
           </div>
           <div class="extra content">
@@ -519,14 +597,21 @@
             </div>
           </div>
         </a>
+        {{/each}}
+        {{else}}
+        <p>You have not organized any sports and wellness events</p>
+        {{/if}}
 
         <h2><i class="book icon"></i>Learning</h2>
-        <a class="ui centered card" href="#">
+        {{#if my_learning}}
+        {{#each my_learning}}
+        <a class="ui olive centered card" href="#">
           <div class="content">
-            <div class="header">Discussing cambridge analytica</div>
+            <div class="header">{{this.name}}</div>
             <div class="description">
-              <span>29 April 2018, 4.30pm</span><br>
-              <span>Co-Science Park Room 123</span>
+              <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
+              <span><b>Where: </b>{{this.venue}}</span><br>
+              <span><b>Details: </b>{{this.description}}</span>
             </div>
           </div>
           <div class="extra content">
@@ -536,6 +621,58 @@
             </div>
           </div>
         </a>
+        {{/each}}
+        {{else}}
+        <p>You have not organized any learning events</p>
+        {{/if}}
+
+        <h2><img src="img/arts-icon.svg" id="arts-icon" alt="arts-icon">Arts & Culture</h2>
+        {{#if my_arts}}
+        {{#each my_arts}}
+        <a class="ui red centered card" href="#">
+          <div class="content">
+            <div class="header">{{this.name}}</div>
+            <div class="description">
+              <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
+              <span><b>Where: </b>{{this.venue}}</span><br>
+              <span><b>Details: </b>{{this.description}}</span>
+            </div>
+          </div>
+          <div class="extra content">
+            <div class="right floated author">
+              <button class="ui green button"><i class="pencil icon"></i>Edit</button>
+              <button class="ui red button"><i class="trash icon"></i>Delete</button>
+            </div>
+          </div>
+        </a>
+        {{/each}}
+        {{else}}
+        <p>You have not organized any arts and culture events</p>
+        {{/if}}
+
+        <h2><img src="img/others-icon.svg" id="others-icon" alt="others-icon">Others</h2>
+        {{#if my_others}}
+        {{#each my_others}}
+        <a class="ui red centered card" href="#">
+          <div class="content">
+            <div class="header">{{this.name}}</div>
+            <div class="description">
+              <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
+              <span><b>Where: </b>{{this.venue}}</span><br>
+              <span><b>Details: </b>{{this.description}}</span>
+            </div>
+          </div>
+          <div class="extra content">
+            <div class="right floated author">
+              <button class="ui green button"><i class="pencil icon"></i>Edit</button>
+              <button class="ui red button"><i class="trash icon"></i>Delete</button>
+            </div>
+          </div>
+        </a>
+        {{/each}}
+        {{else}}
+        <p>You have not organized any other events</p>
+        {{/if}}
 
 
       </div>
@@ -547,14 +684,18 @@
 
   <script>
 
+  {{#if create_success}}
+  $('#success-message').css('display', 'none');
+  $('#create-success-message').show();
+  {{/if}}
+
   $('.message .close')
   .on('click', function() {
     $(this)
     .closest('.message')
     .transition('fade')
     ;
-  })
-  ;
+  });
 
   // DISPLAY CREATE EVENT MODAL
   $(function(){
@@ -602,16 +743,8 @@
   </script>
 
   <script>
-  // This example displays an address form, using the autocomplete feature
-  // of the Google Places API to help users fill in the information.
 
   var placeSearch, autocomplete;
-
-  // This example requires the Places library. Include the libraries=places
-  // parameter when you first load the API. For example:
-
-  // Bias the autocomplete object to the user's geographical location,
-  // as supplied by the browser's 'navigator.geolocation' object.
 
   function initAutocomplete() {
     // Create the autocomplete object, restricting the search to geographical
@@ -619,9 +752,10 @@
     autocomplete = new google.maps.places.Autocomplete(
       /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
       {types: ['geocode']});
-      console.log(autocomplete);
     }
 
+    // Bias the autocomplete object to the user's geographical location,
+    // as supplied by the browser's 'navigator.geolocation' object.
     function geolocate() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -639,12 +773,25 @@
       }
     }
 
-    function getCoordinates() {
-      var place = autocomplete.getPlace();
-      $('#lat-input').val(place.geometry.location.lat());
-      $('#lng-input').val(place.geometry.location.lng());
-      // console.log("Lat: " + place.geometry.location.lat());
-      // console.log("Long: " + place.geometry.location.lng());
+    function submitForm() {
+      // get place input
+      var place = document.getElementById('autocomplete').value;
+      place = place.replace(/\s/g, "+");
+
+      // geocoding API request - limit country to singapore
+      $.get( `https://maps.googleapis.com/maps/api/geocode/json?address=${place}&components=country:singapore&key=AIzaSyCYzIzHZUMxbmbGWmWNvF6C0Ojzi3XTN1E`, function( data ) {
+
+        $( ".result" ).html( data );
+        $('#lat-input').val(data['results'][0]['geometry']['location']['lat']);
+        $('#lng-input').val(data['results'][0]['geometry']['location']['lng']);
+
+        // submit form
+        $('form#create-event-form').submit();
+      });
+
+      // var place = autocomplete.getPlace();
+      // $('#lat-input').val(place.geometry.location.lat());
+      // $('#lng-input').val(place.geometry.location.lng());
     }
 
     </script>

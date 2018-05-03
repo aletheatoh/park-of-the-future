@@ -69,10 +69,46 @@ app.get('/', (request, response) => {
         response.sendStatus(500);
       }
 
+      var create_event = request.query.create_success;
+
+      // need to filter events by category
+      // 1) Career & Business, 2) Tech, 3) Sports & Wellness, 4) Learning, 5) Arts & Culture, 6) Others
+      let career = queryResult.rows.filter( event => event.category === "Career and Business");
+      let tech = queryResult.rows.filter( event => event.category === "Tech");
+      let sports = queryResult.rows.filter( event => event.category === "Sports and Wellness");
+      let learning = queryResult.rows.filter( event => event.category === "Learning");
+      let arts = queryResult.rows.filter( event => event.category === "Arts and Culture");
+      let others = queryResult.rows.filter( event => event.category === "Others");
+
+      // further filter these category to get MY events
+      let my_career = career.filter( event => event.organizer_id === parseInt(user_id));
+      let my_tech = tech.filter( event => event.organizer_id === parseInt(user_id));
+      let my_sports = sports.filter( event => event.organizer_id === parseInt(user_id));
+      let my_learning = learning.filter( event => event.organizer_id === parseInt(user_id));
+      let my_arts = arts.filter( event => event.organizer_id === parseInt(user_id));
+      let my_others = others.filter( event => event.organizer_id === parseInt(user_id));
+
       var context = {
+        // all events
         events: queryResult.rows,
+        career: career,
+        tech: tech,
+        sports: sports,
+        learning: learning,
+        arts: arts,
+        others: others,
+        // my events
+        my_career: my_career,
+        my_tech: my_tech,
+        my_sports: my_sports,
+        my_learning: my_learning,
+        my_arts: my_arts,
+        my_others: my_others,
+        // username
         username: username
       }
+
+      if (create_event === "true") context['create_success'] = true;
 
       response.render('home', context);
     });

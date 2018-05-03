@@ -18,20 +18,24 @@
    // `dbPool` is accessible within this function scope
    return {
      // create an event
-     create: (user_id, event_, callback) => {
+     create: (user_id, username, event_, callback) => {
+
+       var date = new Date(event_.date);
 
        // set up query
-       var queryString = `INSERT INTO events (organizer_id, name, category, date_, starttime, endtime, description, lat, lng)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`;
+       var queryString = `INSERT INTO events (organizer_id, organizer_name, name, category, date_, starttime, endtime, description, venue, lat, lng)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`;
 
        var values = [
          user_id,
+         username,
          event_.name,
          event_.category,
-         event_.date,
+         date.toDateString(),
          event_.starttime,
          event_.endtime,
          event_.description,
+         event_.venue,
          parseFloat(event_.lat),
          parseFloat(event_.lng)
        ];

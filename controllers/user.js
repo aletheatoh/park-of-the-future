@@ -50,35 +50,35 @@ const create = (db) => {
 
       // use user model method `create` to create new user entry in db
       db.user.create(request.body, (error, queryResult) => {
-        // queryResult of creation is not useful to us, so we ignore it
 
-        // (you can choose to omit it completely from the function parameters)
+        db.user.getUserId(request.body.username, (err, res) => {
 
-        if (error) {
-          console.error('error getting user:', error);
-          response.sendStatus(500);
-        }
+          if (err) {
+            console.error('error getting user:', err);
+            response.sendStatus(500);
+          }
 
-        if (queryResult.rowCount >= 1) {
-          console.log('User created successfully');
+          if (queryResult.rowCount >= 1) {
+            console.log('User created successfully');
 
-          response.cookie('loggedIn', true);
-          response.cookie('username', request.body.username);
-          response.cookie('email', request.body.email);
+            response.cookie('loggedIn', true);
+            response.cookie('username', request.body.username);
+            response.cookie('email', request.body.email);
+            response.cookie('user-id', res.rows[0].id);
+          }
 
-        }
+          else {
+            console.log('User could not be created');
+          }
 
-        else {
-          console.log('User could not be created');
-        }
+          var context = {
+            username: request.body.username,
+            newUser: true
+          }
 
-        var context = {
-          username: request.body.username,
-          newUser: true
-        }
-
-        // redirect to home page after creation
-        response.render('home', context);
+          // redirect to home page after creation
+          response.render('home', context);
+        });
       });
     });
 
