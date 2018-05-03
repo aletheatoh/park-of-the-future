@@ -265,26 +265,6 @@ function uniq(a) {
    };
  };
 
- const homePage = (db) => {
-   return (request, response) => {
-
-     db.event.getAllEvents((error, queryResult) => {
-       // queryResult of creation is not useful to us, so we ignore it
-
-       if (error) {
-         console.error('error getting event:', error);
-         response.sendStatus(500);
-       }
-
-       var context = {
-         events: queryResult.rows
-       }
-
-       response.render('home', context);
-     });
-   };
- };
-
  /**
   * ===========================================
   * Export controller functions as a module
@@ -297,6 +277,5 @@ function uniq(a) {
    update,
    deleteArticle,
    createForm,
-   create,
-   homePage
+   create
  };

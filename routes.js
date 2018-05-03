@@ -30,9 +30,6 @@
 
    app.post('/events', events.create(db)); // done
 
-   // test for homepage
-   app.get('/test', events.homePage(db));
-
   //    // Redirect the user to Facebook for authentication.  When complete,
   // // Facebook will redirect the user back to the application at
   // //     /auth/facebook/callback
