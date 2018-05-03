@@ -261,8 +261,6 @@ function uniq(a) {
        }
 
        response.redirect('/?create_success=true');
-       // response.send(request.body);
-
      });
    };
  };

@@ -2,20 +2,6 @@ html, body {margin: 0; height: 100%; width: 100%; overflow: hidden}
 
 #map { position:absolute; top:0; width:100%; height: 100%; z-index: 0; }
 
-/* set up our 3D space */
-#map,
-#map * {
- -webkit-transform-style:preserve-3d;
- transform-style:preserve-3d;
-}
-
-/* Optional: this will help you see what's going on as we build the tilted view, but can be removed */
-.marker {
- -webkit-transform:translateZ(1px);
- transform:translateZ(1px);
-}
-
-
 #tree-talk-logo {
   width: 350px;
   display: block;

@@ -72,12 +72,11 @@ const create = (db) => {
           }
 
           var context = {
-            username: request.body.username,
             newUser: true
           }
 
           // redirect to home page after creation
-          response.render('home', context);
+          response.redirect('/?new_user=true')
         });
       });
     });
@@ -180,13 +179,7 @@ const login = (db) => {
           response.cookie('email', request.body.email);
           response.cookie('user-id', queryResult.rows[0].id);
 
-          var context = {
-            username: request.body.username,
-            returningUser: true
-          }
-
-          response.render('home', context);
-          return;
+          response.redirect('/?returning_user=true');
         }
 
         else {

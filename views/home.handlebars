@@ -9,7 +9,7 @@
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
   <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.min.js'></script>
-<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.css' type='text/css' />
+  <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.css' type='text/css' />
 
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
@@ -27,17 +27,35 @@
 
   mapboxgl.accessToken = 'pk.eyJ1IjoibWFuaXNobmFpciIsImEiOiJjamdqMWdqcXQwY2xrMnhudzI2c245aDd2In0.AxR3vxzUtWjv312SBHmnYA';
 
+  // try to center the map to current location
+  var user_lat = null;
+  var user_lng = null;
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      user_lat = position.coords.latitude;
+      user_lng = position.coords.longitude;
+    });
+  }
+
+  var coor = [103.7830464, 1.2883539];
+
+  // center map at user's current position if possible
+  if (user_lat !== null && user_lng !== null) {
+    coor[0] = user_lng;
+    coor[1] = user_lat;
+  }
+
   var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/manishnair/cjgj23lov00112snzt6u5dccj',
-    center: [103.7830464, 1.2883539], // starting position
+    center: coor, // starting position
     pitch: 90,
     zoom: 18 // starting zoom
   });
 
   map.addControl(new MapboxGeocoder({
     accessToken: mapboxgl.accessToken
-}));
+  }));
 
   // The 'building' layer in the mapbox-streets vector source contains building-height
   // data from OpenStreetMap.
@@ -150,8 +168,10 @@
       // When a click event occurs on a feature in the places layer, open a popup at the
       // location of the feature, with description HTML from its properties.
       map.on('click', 'points1', function (e) {
+
+        var icon = '{{{techIcon}}}';
         var coordinates = e.features[0].geometry.coordinates.slice();
-        var description = "<strong><i class=\"computer icon\"></i>Breaking Down Those Tech Buzzwords</strong><p>Hosted by: Clement Lee<br>Location: Room 123<br></p>";
+        var description = `<strong>${icon}Breaking Down Those Tech Buzzwords</strong><p>Hosted by: Clement Lee<br>Location: Room 123<br></p>`;
 
         // Ensure that if the map is zoomed out such that multiple
         // copies of the feature are visible, the popup appears
@@ -182,9 +202,9 @@
     map.loadImage('https://i.imgur.com/MWOrh1i.png', function(error, image) {
       if (error) throw error;
 
-      map.addImage('{{this.name}}', image);
+      map.addImage('image-{{this.name}}', image);
       map.addLayer({
-        "id": '{{this.id}}',
+        "id": 'point-{{this.id}}',
         "type": "symbol",
         "source": {
           "type": "geojson",
@@ -200,11 +220,47 @@
           }
         },
         "layout": {
-          "icon-image": '{{this.name}}',
+          "icon-image": 'image-{{this.name}}',
           "icon-size": 0.25
         }
       });
+
+      var icon;
+      if ('{{this.category}}' === "Career and Business") icon = '{{{careerIcon}}}';
+      if ('{{this.category}}' === "Tech") icon = '{{{techIcon}}}';
+      if ('{{this.category}}' === "Sports and Wellness") icon = '{{{sportsIcon}}}';
+      if ('{{this.category}}' === "Learning") icon = '{{{learningIcon}}}';
+      if ('{{this.category}}' === "Arts and Culture") icon = '{{{artsIcon}}}';
+      if ('{{this.category}}' === "Others") icon = '{{{othersIcon}}}';
+
+      map.on('click', 'point-{{this.id}}', function (e) {
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = `<strong>${icon}{{this.name}}</strong><p>Hosted by: {{this.organizer_name}}<br>Location: {{this.location}}<br>Description: {{this.description}}</p>`;
+
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+
+        var popup = new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(description)
+        .addTo(map);
+
       });
+
+      // Change the cursor to a pointer when the mouse is over the places layer.
+      map.on('mouseenter', 'point-{{this.id}}', function () {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+
+      // Change it back to a pointer when it leaves.
+      map.on('mouseleave', 'point-{{this.id}}', function () {
+        map.getCanvas().style.cursor = '';
+      });
+    });
     {{/each}}
 
     // END OF MAP ******************************************
@@ -217,13 +273,12 @@
     </button>
   </form>
 
-
   <div class="container">
 
-    <div id="success-message" class="ui success message">
+    <div id="welcome-message" class="ui success message" style="display:none;">
       <i class="close icon"></i>
       <div class="header">
-        Welcome {{#if returningUser}} back {{/if}} to CookieTalk, {{username}}!
+        Welcome {{#if returning_user}} back {{/if}} to CookieTalk, {{username}}!
       </div>
       <p>Start exploring what's around you!</p>
     </div>
@@ -260,7 +315,7 @@
           <div class="ui form">
             <div class="field">
               <label>Event Title</label>
-              <input name="name" type="text" placeholder="E.g. Cryptocurrency 101">
+              <input name="name" type="text" placeholder="E.g. Yoga on the lawn">
             </div>
             <div class="field datetime">
               <label>Date</label>
@@ -279,7 +334,7 @@
             <div id="locationField">
               <div class="field">
                 <label>Venue Location</label>
-                <input name="venue" id="autocomplete" placeholder="Enter your address"
+                <input name="venue" id="autocomplete" placeholder="Enter an address"
                 onFocus="geolocate()" type="text"></input>
                 <input id="lat-input" name="lat" type="text" style="display:none;"></input>
                 <input id="lng-input" name="lng" type="text" style="display:none;"></input>
@@ -339,6 +394,7 @@
           </div>
 
         </form>
+
       </div>
 
       <div class="actions">
@@ -368,9 +424,15 @@
             </div>
           </div>
           <div class="extra content">
-            <button class="yellow large ui icon button" id="interest-button">
-              <i class="icon star"></i>13
-            </button>
+            <div class="ui tiny yellow statistic">
+              <div class="value">
+                {{this.num_interests}}
+              </div>
+              <div class="label">
+                Interested
+              </div>
+            </div>
+            <div style="display:inline-block; vertical-align:middle;" class="ui massive star rating" data-max-rating="1"></div>
 
             <script>
             $('#interest-button').click(function() {
@@ -401,9 +463,15 @@
             </div>
           </div>
           <div class="extra content">
-            <button class="yellow large ui icon button" id="interest-button">
-              <i class="icon star"></i>9
-            </button>
+            <div class="ui tiny yellow statistic">
+              <div class="value">
+                {{this.num_interests}}
+              </div>
+              <div class="label">
+                Interested
+              </div>
+            </div>
+            <div style="display:inline-block; vertical-align:middle;" class="ui massive star rating" data-max-rating="1"></div>
             <div class="right floated author">
               Hosted by: {{this.organizer_name}}
             </div>
@@ -427,9 +495,16 @@
             </div>
           </div>
           <div class="extra content">
-            <button class="yellow large ui icon button" id="interest-button">
-              <i class="icon star"></i>2
-            </button>
+            <div class="ui tiny yellow statistic">
+              <div class="value">
+                {{this.num_interests}}
+              </div>
+              <div class="label">
+                Interested
+              </div>
+            </div>
+            <div style="display:inline-block; vertical-align:middle;" class="ui massive star rating" data-max-rating="1"></div>
+
             <div class="right floated author">
               Hosted by: {{this.organizer_name}}
             </div>
@@ -453,9 +528,15 @@
             </div>
           </div>
           <div class="extra content">
-            <button class="yellow large ui icon button" id="interest-button">
-              <i class="icon star"></i>20
-            </button>
+            <div class="ui tiny yellow statistic">
+              <div class="value">
+                {{this.num_interests}}
+              </div>
+              <div class="label">
+                Interested
+              </div>
+            </div>
+            <div style="display:inline-block; vertical-align:middle;" class="ui massive star rating" data-max-rating="1"></div>
             <div class="right floated author">
               Hosted by: {{this.organizer_name}}
             </div>
@@ -479,9 +560,15 @@
             </div>
           </div>
           <div class="extra content">
-            <button class="yellow large ui icon button" id="interest-button">
-              <i class="icon star"></i>0
-            </button>
+            <div class="ui tiny yellow statistic">
+              <div class="value">
+                {{this.num_interests}}
+              </div>
+              <div class="label">
+                Interested
+              </div>
+            </div>
+            <div style="display:inline-block; vertical-align:middle;" class="ui massive star rating" data-max-rating="1"></div>
             <div class="right floated author">
               Hosted by: {{this.organizer_name}}
             </div>
@@ -505,9 +592,15 @@
             </div>
           </div>
           <div class="extra content">
-            <button class="yellow large ui icon button" id="interest-button">
-              <i class="icon star"></i>5
-            </button>
+            <div class="ui tiny yellow statistic">
+              <div class="value">
+                {{this.num_interests}}
+              </div>
+              <div class="label">
+                Interested
+              </div>
+            </div>
+            <div style="display:inline-block; vertical-align:middle;" class="ui massive star rating" data-max-rating="1"></div>
             <div class="right floated author">
               Hosted by: {{this.organizer_name}}
             </div>
@@ -684,9 +777,21 @@
 
   <script>
 
+  $('.ui.rating')
+  .rating()
+  ;
+
   {{#if create_success}}
-  $('#success-message').css('display', 'none');
+  $('#welcome-message').css('display', 'none');
   $('#create-success-message').show();
+  {{/if}}
+
+  {{#if returning_user}}
+  $('#welcome-message').show();
+  {{/if}}
+
+  {{#if new_user}}
+  $('#welcome-message').show();
   {{/if}}
 
   $('.message .close')
@@ -780,18 +885,16 @@
 
       // geocoding API request - limit country to singapore
       $.get( `https://maps.googleapis.com/maps/api/geocode/json?address=${place}&components=country:singapore&key=AIzaSyCYzIzHZUMxbmbGWmWNvF6C0Ojzi3XTN1E`, function( data ) {
-
-        $( ".result" ).html( data );
+        // use address given by google maps API if possible
+        if (data['results'][0]['formatted_address'] !== undefined) {
+          $('#autocomplete').val(data['results'][0]['formatted_address']);
+        }
         $('#lat-input').val(data['results'][0]['geometry']['location']['lat']);
         $('#lng-input').val(data['results'][0]['geometry']['location']['lng']);
 
         // submit form
         $('form#create-event-form').submit();
       });
-
-      // var place = autocomplete.getPlace();
-      // $('#lat-input').val(place.geometry.location.lat());
-      // $('#lng-input').val(place.geometry.location.lng());
     }
 
     </script>

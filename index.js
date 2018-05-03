@@ -25,18 +25,20 @@ app.use(cookieParser());
 // Set handlebars to be the default view engine
 const handlebarsConfigs = {
   extname: '.handlebars',
-  layoutsDir: 'views'
+  layoutsDir: 'views',
+  helpers: {
+      careerIcon: function () { return '<i class=\\"briefcase icon\\"></i>'; },
+      techIcon: function () { return '<img class=\\"ui mini avatar image\\" src=\\"img/robot.png\\" style=\\"margin-left:-3.5;\\">'; },
+      sportsIcon: function () { return '<i class=\\"heartbeat icon\\"></i>'; },
+      learningIcon: function () { return '<i class=\\"book icon\\"></i>'; },
+      artsIcon: function () { return '<img src=\\"img/arts-icon.svg\\" id="arts-icon" alt="arts-icon">'; },
+      othersIcon: function () { return '<img src=\\"img/others-icon.svg\\" id="others-icon" alt="others-icon">'; }
+  }
   // defaultLayout: 'layout'
 };
 
 app.engine('.handlebars', handlebars(handlebarsConfigs));
 app.set('view engine', 'handlebars');
-
-/**
- * ===================================
- * Routes
- * ===================================
- */
 
 // Import routes to match incoming requests
 require('./routes')(app, db);
@@ -45,11 +47,6 @@ require('./routes')(app, db);
 app.use(express.static('public'));
 
 // Root GET request (it doesn't belong in any controller file)
-// app.get('/signin', (request, response) => {
-//
-//   response.render('user/signin');
-// });
-
 app.get('/', (request, response) => {
 
   // retrieve cookies
@@ -68,8 +65,6 @@ app.get('/', (request, response) => {
         console.error('error getting event:', error);
         response.sendStatus(500);
       }
-
-      var create_event = request.query.create_success;
 
       // need to filter events by category
       // 1) Career & Business, 2) Tech, 3) Sports & Wellness, 4) Learning, 5) Arts & Culture, 6) Others
@@ -108,7 +103,12 @@ app.get('/', (request, response) => {
         username: username
       }
 
+      var create_event = request.query.create_success;
       if (create_event === "true") context['create_success'] = true;
+      var returning_user = request.query.returning_user;
+      if (returning_user === "true") context['returning_user'] = true;
+      var new_user = request.query.new_user;
+      if (new_user === "true") context['new_user'] = true;
 
       response.render('home', context);
     });
