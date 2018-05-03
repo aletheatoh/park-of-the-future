@@ -1,7 +1,7 @@
 /**
- * Article controller functions.
+ * Event controller functions.
  *
- * Each article-related route in `routes.js` will call
+ * Each event-related route in `routes.js` will call
  * one controller function here.
  *
  * Export all functions as a module using `module.exports`,
@@ -12,14 +12,6 @@
   * Controller logic
   * ===========================================
   */
-
-// helper function
-function uniq(a) {
-  var seen = {};
-  return a.filter(function(item, index) {
-      return seen.hasOwnProperty(item.id) ? false : (seen[item.id] = true);
-  });
-}
 
  const get = (db) => {
    return (request, response) => {

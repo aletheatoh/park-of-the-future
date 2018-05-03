@@ -6,7 +6,6 @@
 
 const bcrypt = require('bcrypt');
 
-
 const newForm = (request, response) => {
   response.render('user/new');
 };
