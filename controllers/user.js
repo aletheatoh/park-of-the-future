@@ -35,9 +35,9 @@ const get = (db) => {
 const create = (db) => {
   return (request, response) => {
 
-    db.user.checkUsernameAvailability(request.body.username, (err, res) => {
+    db.user.checkUsernameAvailability(request.body.username, (e, r) => {
 
-      if (res != undefined && res.rows.length >= 1) {
+      if (r != undefined && r.rows.length >= 1) {
 
         let context = {
           usernameTaken: true
