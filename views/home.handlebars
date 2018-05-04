@@ -6,6 +6,8 @@
   <link rel="stylesheet" type="text/css" href="/css/style.css">
 
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <!-- mapbox -->
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
   <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.min.js'></script>
@@ -55,7 +57,9 @@
   });
 
   map.addControl(new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken
+    accessToken: mapboxgl.accessToken,
+    // limit results to Singapore
+    country: 'sg'
   }));
 
   // The 'building' layer in the mapbox-streets vector source contains building-height
@@ -369,27 +373,27 @@
 
                 <div class="menu">
                   <div class="item" data-value="Career and Business">
-                    <div class="category-dropdown" style="margin-right:12px"><img class="category-dropdown-img" src="img/career-icon.svg"></div>
+                    <div class="category-dropdown" style="margin-right:10px"><img class="category-dropdown-img" src="img/career-icon.svg"></div>
                     <div class="category-dropdown">Career & Business</div>
                   </div>
                   <div class="item" data-value="Tech">
-                    <div class="category-dropdown" style="margin-right:12px"><img class="category-dropdown-img" src="img/tech-icon.svg"></div>
+                    <div class="category-dropdown" style="margin-right:10px"><img class="category-dropdown-img" src="img/tech-icon.svg"></div>
                     <div class="category-dropdown">Tech</div>
                   </div>
                   <div class="item" data-value="Sports and Wellness">
-                    <div class="category-dropdown" style="margin-right:12px"><img class="category-dropdown-img" src="img/sports-wellness-icon.svg"></div>
+                    <div class="category-dropdown" style="margin-right:10px"><img class="category-dropdown-img" src="img/sports-wellness-icon.svg"></div>
                     <div class="category-dropdown">Sports & Wellness</div>
                   </div>
                   <div class="item" data-value="Learning">
-                    <div class="category-dropdown" style="margin-right:12px"><img class="category-dropdown-img" src="img/learning-icon.svg"></div>
+                    <div class="category-dropdown" style="margin-right:10px"><img class="category-dropdown-img" src="img/learning-icon.svg"></div>
                     <div class="category-dropdown">Learning</div>
                   </div>
                   <div class="item" data-value="Arts and Culture">
-                    <div class="category-dropdown" style="margin-right:12px"><img class="category-dropdown-img" src="img/arts-icon.svg"></div>
+                    <div class="category-dropdown" style="margin-right:10px"><img class="category-dropdown-img" src="img/arts-icon.svg"></div>
                     <div class="category-dropdown">Arts & Culture</div>
                   </div>
                   <div class="item" data-value="Others">
-                    <div class="category-dropdown" style="margin-right:12px"><img class="category-dropdown-img" src="img/others-icon.svg"></div>
+                    <div class="category-dropdown" style="margin-right:10px"><img class="category-dropdown-img" src="img/others-icon.svg"></div>
                     <div class="category-dropdown">Others</div>
                   </div>
                 </div>
