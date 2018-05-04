@@ -49,7 +49,7 @@
     container: 'map', // container id
     style: 'mapbox://styles/manishnair/cjgj23lov00112snzt6u5dccj',
     center: coor, // starting position
-    pitch: 90,
+    pitch: 100,
     zoom: 18 // starting zoom
   });
 
@@ -139,7 +139,7 @@
 
     });
     // Location Pointer 2 (Highlighted)
-    map.loadImage('https://i.imgur.com/MWOrh1i.png', function(error, image) {
+    map.loadImage('https://i.imgur.com/gc2Jd0J.png?4', function(error, image) {
       if (error) throw error;
 
       map.addImage('cat1', image);
@@ -161,7 +161,7 @@
         },
         "layout": {
           "icon-image": "cat1",
-          "icon-size": 0.25
+          "icon-size": 0.30
         }
       });
 
@@ -199,7 +199,37 @@
     });
 
     {{#each events}}
-    map.loadImage('https://i.imgur.com/MWOrh1i.png', function(error, image) {
+
+    // use the corresponding image url and icon
+    var imageUrl;
+    var icon;
+
+    if ('{{this.category}}' === "Career and Business") {
+      icon = '{{{careerIcon}}}';
+      imageUrl = 'https://i.imgur.com/R9ZPOqK.png?5';
+    }
+    if ('{{this.category}}' === "Tech") {
+      icon = '{{{techIcon}}}';
+      imageUrl = 'https://i.imgur.com/gc2Jd0J.png?4';
+    }
+    if ('{{this.category}}' === "Sports and Wellness") {
+      icon = '{{{sportsIcon}}}';
+      imageUrl = 'https://i.imgur.com/Q5M3x2n.png?1';
+    }
+    if ('{{this.category}}' === "Learning") {
+      icon = '{{{learningIcon}}}';
+      imageUrl = 'https://i.imgur.com/8B6JqAt.png?1';
+    }
+    if ('{{this.category}}' === "Arts and Culture") {
+      icon = '{{{artsIcon}}}';
+      imageUrl = 'https://i.imgur.com/wkVFuqr.png?1';
+    }
+    if ('{{this.category}}' === "Others") {
+      icon = '{{{othersIcon}}}';
+      imageUrl = 'https://i.imgur.com/RUVP0hB.png?1';
+    }
+
+    map.loadImage(imageUrl, function(error, image) {
       if (error) throw error;
 
       map.addImage('image-{{this.name}}', image);
@@ -221,22 +251,13 @@
         },
         "layout": {
           "icon-image": 'image-{{this.name}}',
-          "icon-size": 0.25
+          "icon-size": 0.30
         }
       });
 
-      // use the corresponding icon
-      var icon;
-      if ('{{this.category}}' === "Career and Business") icon = '{{{careerIcon}}}';
-      if ('{{this.category}}' === "Tech") icon = '{{{techIcon}}}';
-      if ('{{this.category}}' === "Sports and Wellness") icon = '{{{sportsIcon}}}';
-      if ('{{this.category}}' === "Learning") icon = '{{{learningIcon}}}';
-      if ('{{this.category}}' === "Arts and Culture") icon = '{{{artsIcon}}}';
-      if ('{{this.category}}' === "Others") icon = '{{{othersIcon}}}';
-
       map.on('click', 'point-{{this.id}}', function (e) {
         var coordinates = e.features[0].geometry.coordinates.slice();
-        var description = `<strong>${icon}{{this.name}}</strong><p>Hosted by: {{this.organizer_name}}<br>Location: {{this.location}}<br>Description: {{this.description}}</p>`;
+        var description = `<strong>${icon}{{this.name}}</strong><p>Hosted by: {{this.organizer_name}}<br>Location: {{this.venue}}<br>Description: {{this.description}}</p>`;
 
         // Ensure that if the map is zoomed out such that multiple
         // copies of the feature are visible, the popup appears
