@@ -63,7 +63,7 @@ const create = (db) => {
           response.cookie('username', request.body.username);
           response.cookie('email', request.body.email);
           response.cookie('user-id', res.rows[0].id);
-        }
+        
 
           // if (res.rowCount >= 1) {
           //   console.log('User created successfully');
