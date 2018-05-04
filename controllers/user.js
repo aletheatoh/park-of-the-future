@@ -57,14 +57,22 @@ const create = (db) => {
             response.sendStatus(500);
           }
 
-          if (res.rowCount >= 1) {
-            console.log('User created successfully');
+          console.log('User created successfully');
 
-            response.cookie('loggedIn', true);
-            response.cookie('username', request.body.username);
-            response.cookie('email', request.body.email);
-            response.cookie('user-id', res.rows[0].id);
-          }
+          response.cookie('loggedIn', true);
+          response.cookie('username', request.body.username);
+          response.cookie('email', request.body.email);
+          response.cookie('user-id', res.rows[0].id);
+        }
+
+          // if (res.rowCount >= 1) {
+          //   console.log('User created successfully');
+          //
+          //   response.cookie('loggedIn', true);
+          //   response.cookie('username', request.body.username);
+          //   response.cookie('email', request.body.email);
+          //   response.cookie('user-id', res.rows[0].id);
+          // }
 
           else {
             console.log('User could not be created');
