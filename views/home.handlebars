@@ -23,6 +23,7 @@
 
   <div id='map'>
   </div>
+
   <script>
 
   mapboxgl.accessToken = 'pk.eyJ1IjoibWFuaXNobmFpciIsImEiOiJjamdqMWdqcXQwY2xrMnhudzI2c245aDd2In0.AxR3vxzUtWjv312SBHmnYA';
@@ -305,6 +306,7 @@
         Your event was successfully created.
       </div>
       <p>Keep exploring what's going on around you!</p>
+      <div id="fly-to-event" class="ui mini compact button">Fly to Event</div>
     </div>
 
     <div id="navbar">
@@ -457,7 +459,7 @@
 
             </script>
             <div class="right floated author">
-              Hosted by: {{this.organizer_name}}
+              <div>Hosted by: {{this.organizer_name}}</div>
             </div>
           </div>
         </a>
@@ -800,6 +802,15 @@
   {{#if create_success}}
   $('#welcome-message').css('display', 'none');
   $('#create-success-message').show();
+  document.getElementById('fly-to-event').addEventListener('click', function () {
+      // Fly to a random location by offsetting the point -74.50, 40
+      // by up to 5 degrees.
+      map.flyTo({
+          center: [
+              {{created_event_lng}},
+              {{created_event_lat}}]
+      });
+  });
   {{/if}}
 
   {{#if returning_user}}
@@ -861,9 +872,6 @@
     });
   });
 
-  </script>
-
-  <script>
 
   var placeSearch, autocomplete;
 

@@ -237,6 +237,7 @@
 
  const create = (db) => {
    return (request, response) => {
+
      let user_id = parseInt(request.cookies['user-id']);
      let username = request.cookies['username'];
 
@@ -248,11 +249,7 @@
          response.sendStatus(500);
        }
 
-       var context = {
-         create_success: true
-       }
-
-       response.redirect('/?create_success=true');
+       response.redirect(`/?create_success=true&lng=${request.body.lng}&lat=${request.body.lat}`);
      });
    };
  };

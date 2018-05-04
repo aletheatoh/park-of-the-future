@@ -46,17 +46,6 @@ button:focus, button:active {
   border: none;
 }
 
-#others-icon, #arts-icon {
-  width: 25px;
-  margin-right: 7px;
-}
-
-#robot-icon {
-  width: 30px;
-  margin-left: -4px;
-  margin-right: 4px;
-}
-
 #sign-out-button {
   position: absolute;
   margin-left: 10px;

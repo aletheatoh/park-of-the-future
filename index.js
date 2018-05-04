@@ -22,17 +22,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(cookieParser());
 
+// -webkit-animation: bounce 1.2s ease-out;
+// 	-moz-animation: bounce 800ms ease-out;
+// 	-o-animation: bounce 800ms ease-out;
+// 	animation: bounce 1.2s ease-out;
+
+
 // Set handlebars to be the default view engine
 const handlebarsConfigs = {
   extname: '.handlebars',
   layoutsDir: 'views',
   helpers: {
       careerIcon: function () { return '<img style="width:35px;margin-right:5px;margin-bottom:5px;" src=\\"img/career-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
-      techIcon: function () { return '<img style="width:35px;margin-right:5px;" src=\\"img/tech-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
+      techIcon: function () { return '<img class="map-icon" style="width:35px;margin-right:5px;margin-bottom:5px;" src=\\"img/tech-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
       sportsIcon: function () { return '<img style="width:35px;margin-right:5px;margin-bottom:5px;" src=\\"img/sports-wellness-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
-      learningIcon: function () { return '<img style="width:35px;margin-right:5px;" src=\\"img/learning-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
-      artsIcon: function () { return '<img style="width:35px;margin-right:5px;" src=\\"img/arts-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
-      othersIcon: function () { return '<img style="width:35px;margin-right:5px;" src=\\"img/others-icon.svg\\" style=\\"margin-left:-3.5;\\">'; }
+      learningIcon: function () { return '<img style="width:35px;margin-right:5px;margin-bottom:5px;" src=\\"img/learning-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
+      artsIcon: function () { return '<img style="width:35px;margin-right:5px;margin-bottom:5px;" src=\\"img/arts-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
+      othersIcon: function () { return '<img style="width:35px;margin-right:5px;margin-bottom:5px;" src=\\"img/others-icon.svg\\" style=\\"margin-left:-3.5;\\">'; }
   }
   // defaultLayout: 'layout'
 };
@@ -103,8 +109,14 @@ app.get('/', (request, response) => {
         username: username
       }
 
+      // if a new event was created
       var create_event = request.query.create_success;
-      if (create_event === "true") context['create_success'] = true;
+      if (create_event === "true") {
+        context['create_success'] = true;
+        context['created_event_lng'] = parseFloat(request.query.lng);
+        context['created_event_lat'] = parseFloat(request.query.lat);
+      }
+
       var returning_user = request.query.returning_user;
       if (returning_user === "true") context['returning_user'] = true;
       var new_user = request.query.new_user;
