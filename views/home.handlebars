@@ -109,36 +109,7 @@
       showUserLocation: true
     }));
 
-    // Location Pointer 1
-    map.loadImage('https://i.imgur.com/klIIaW1.png', function(error, image) {
-      if (error) throw error;
-
-      map.addImage('cat2', image);
-
-      map.addLayer({
-        "id": "points2",
-        "type": "symbol",
-        "source": {
-          "type": "geojson",
-          "data": {
-            "type": "FeatureCollection",
-            "features": [{
-              "type": "Feature",
-              "geometry": {
-                "type": "Point",
-                "coordinates": [103.7820464, 1.2882639]
-              }
-            }]
-          }
-        },
-        "layout": {
-          "icon-image": "cat2",
-          "icon-size": 0.25
-        }
-      });
-
-    });
-    // Location Pointer 2 (Highlighted)
+    // Location Pointer Example (Highlighted)
     map.loadImage('https://i.imgur.com/gc2Jd0J.png?4', function(error, image) {
       if (error) throw error;
 
@@ -184,7 +155,7 @@
         .setLngLat(coordinates)
         .setHTML(description)
         .addTo(map);
-
+        .zoomAnimation(true)
       });
 
       // Change the cursor to a pointer when the mouse is over the places layer.

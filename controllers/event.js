@@ -240,7 +240,7 @@
      let user_id = parseInt(request.cookies['user-id']);
      let username = request.cookies['username'];
 
-     db.event.create(user_id, username, request.body, (error, queryResult) => {
+     db.event_.create(user_id, username, request.body, (error, queryResult) => {
        // queryResult of creation is not useful to us, so we ignore it
 
        if (error) {

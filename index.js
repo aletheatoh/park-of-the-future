@@ -59,7 +59,7 @@ app.get('/', (request, response) => {
 
   else {
     // load all events to be displayed on the map
-    db.event.getAllEvents((error, queryResult) => {
+    db.event_.getAllEvents((error, queryResult) => {
 
       if (error) {
         console.error('error getting event:', error);
