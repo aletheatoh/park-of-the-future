@@ -154,8 +154,7 @@
         var popup = new mapboxgl.Popup()
         .setLngLat(coordinates)
         .setHTML(description)
-        .addTo(map);
-        .zoomAnimation(true)
+        .addTo(map)
       });
 
       // Change the cursor to a pointer when the mouse is over the places layer.
@@ -172,88 +171,112 @@
     {{#each events}}
 
     // use the corresponding image url and icon
-    var imageUrl;
-    var icon;
+    var imageUrl = "";
 
+    var counter = 0;
     if ('{{this.category}}' === "Career and Business") {
-      icon = '{{{careerIcon}}}';
       imageUrl = 'https://i.imgur.com/R9ZPOqK.png?5';
+      counter += 1;
     }
     if ('{{this.category}}' === "Tech") {
-      icon = '{{{techIcon}}}';
       imageUrl = 'https://i.imgur.com/gc2Jd0J.png?4';
+      counter += 1;
     }
     if ('{{this.category}}' === "Sports and Wellness") {
-      icon = '{{{sportsIcon}}}';
       imageUrl = 'https://i.imgur.com/Q5M3x2n.png?1';
+      counter += 1;
     }
     if ('{{this.category}}' === "Learning") {
-      icon = '{{{learningIcon}}}';
       imageUrl = 'https://i.imgur.com/8B6JqAt.png?1';
+      counter += 1;
     }
     if ('{{this.category}}' === "Arts and Culture") {
-      icon = '{{{artsIcon}}}';
       imageUrl = 'https://i.imgur.com/wkVFuqr.png?1';
+      counter += 1;
     }
     if ('{{this.category}}' === "Others") {
-      icon = '{{{othersIcon}}}';
       imageUrl = 'https://i.imgur.com/RUVP0hB.png?1';
+      counter += 1;
     }
 
-    map.loadImage(imageUrl, function(error, image) {
-      if (error) throw error;
+    if (counter === 1) {
+      map.loadImage(imageUrl, function(error, image) {
+        if (error) throw error;
 
-      map.addImage('image-{{this.name}}', image);
-      map.addLayer({
-        "id": 'point-{{this.id}}',
-        "type": "symbol",
-        "source": {
-          "type": "geojson",
-          "data": {
-            "type": "FeatureCollection",
-            "features": [{
-              "type": "Feature",
-              "geometry": {
-                "type": "Point",
-                "coordinates": [{{this.lng}}, {{this.lat}}]
-              }
-            }]
+        map.addImage('image-{{this.name}}', image);
+        map.addLayer({
+          "id": 'point-{{this.id}}',
+          "type": "symbol",
+          "source": {
+            "type": "geojson",
+            "data": {
+              "type": "FeatureCollection",
+              "features": [{
+                "type": "Feature",
+                "geometry": {
+                  "type": "Point",
+                  "coordinates": [{{this.lng}}, {{this.lat}}]
+                }
+              }]
+            }
+          },
+          "layout": {
+            "icon-image": 'image-{{this.name}}',
+            "icon-size": 0.30
           }
-        },
-        "layout": {
-          "icon-image": 'image-{{this.name}}',
-          "icon-size": 0.30
-        }
+        });
+
+        map.on('click', 'point-{{this.id}}', function (e) {
+          var coordinates = e.features[0].geometry.coordinates.slice();
+
+          var icon = "";
+
+          if ('{{this.category}}' === "Career and Business") {
+            icon = '{{{careerIcon}}}';
+          }
+          if ('{{this.category}}' === "Tech") {
+            icon = '{{{techIcon}}}';
+          }
+          if ('{{this.category}}' === "Sports and Wellness") {
+            icon = '{{{sportsIcon}}}';
+          }
+          if ('{{this.category}}' === "Learning") {
+            icon = '{{{learningIcon}}}';
+          }
+          if ('{{this.category}}' === "Arts and Culture") {
+            icon = '{{{artsIcon}}}';
+          }
+          if ('{{this.category}}' === "Others") {
+            icon = '{{{othersIcon}}}';
+          }
+
+          var description = `<strong>${icon}{{this.name}}</strong><p>Hosted by: {{this.organizer_name}}<br>Location: {{this.venue}}<br>Description: {{this.description}}</p>`;
+
+          // Ensure that if the map is zoomed out such that multiple
+          // copies of the feature are visible, the popup appears
+          // over the copy being pointed to.
+          while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+          }
+
+          var popup = new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(description)
+          .addTo(map);
+
+        });
+
+        // Change the cursor to a pointer when the mouse is over the places layer.
+        map.on('mouseenter', 'point-{{this.id}}', function () {
+          map.getCanvas().style.cursor = 'pointer';
+        });
+
+        // Change it back to a pointer when it leaves.
+        map.on('mouseleave', 'point-{{this.id}}', function () {
+          map.getCanvas().style.cursor = '';
+        });
       });
-
-      map.on('click', 'point-{{this.id}}', function (e) {
-        var coordinates = e.features[0].geometry.coordinates.slice();
-        var description = `<strong>${icon}{{this.name}}</strong><p>Hosted by: {{this.organizer_name}}<br>Location: {{this.venue}}<br>Description: {{this.description}}</p>`;
-
-        // Ensure that if the map is zoomed out such that multiple
-        // copies of the feature are visible, the popup appears
-        // over the copy being pointed to.
-        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-        }
-
-        var popup = new mapboxgl.Popup()
-        .setLngLat(coordinates)
-        .setHTML(description)
-        .addTo(map);
-
-      });
-
-      // Change the cursor to a pointer when the mouse is over the places layer.
-      map.on('mouseenter', 'point-{{this.id}}', function () {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-
-      // Change it back to a pointer when it leaves.
-      map.on('mouseleave', 'point-{{this.id}}', function () {
-        map.getCanvas().style.cursor = '';
-      });
-    });
+    }
     {{/each}}
 
     // END OF MAP ******************************************
@@ -344,28 +367,28 @@
 
                 <div class="menu">
                   <div class="item" data-value="Career and Business">
-                    <i class="briefcase icon"></i>
-                    Career & Business
+                    <div class="category-dropdown" style="margin-right:12px"><img class="category-dropdown-img" src="img/career-icon.svg"></div>
+                    <div class="category-dropdown">Career & Business</div>
                   </div>
                   <div class="item" data-value="Tech">
-                    <img class="ui mini avatar image" src="img/robot.png" style="margin-left:-3.5;">
-                    Tech
+                    <div class="category-dropdown" style="margin-right:12px"><img class="category-dropdown-img" src="img/tech-icon.svg"></div>
+                    <div class="category-dropdown">Tech</div>
                   </div>
                   <div class="item" data-value="Sports and Wellness">
-                    <i class="heartbeat icon"></i>
-                    Sports & Wellness
+                    <div class="category-dropdown" style="margin-right:12px"><img class="category-dropdown-img" src="img/sports-wellness-icon.svg"></div>
+                    <div class="category-dropdown">Sports & Wellness</div>
                   </div>
                   <div class="item" data-value="Learning">
-                    <i class="book icon"></i>
-                    Learning
+                    <div class="category-dropdown" style="margin-right:12px"><img class="category-dropdown-img" src="img/learning-icon.svg"></div>
+                    <div class="category-dropdown">Learning</div>
                   </div>
                   <div class="item" data-value="Arts and Culture">
-                    <img class="ui mini avatar image" src="img/arts-icon.svg" style="width: 18px; margin-left:0px;">
-                    Arts & Culture
+                    <div class="category-dropdown" style="margin-right:12px"><img class="category-dropdown-img" src="img/arts-icon.svg"></div>
+                    <div class="category-dropdown">Arts & Culture</div>
                   </div>
                   <div class="item" data-value="Others">
-                    <img class="ui mini avatar image" src="img/others-icon.svg" style="width: 15px; margin-left:0px;">
-                    Others
+                    <div class="category-dropdown" style="margin-right:12px"><img class="category-dropdown-img" src="img/others-icon.svg"></div>
+                    <div class="category-dropdown">Others</div>
                   </div>
                 </div>
 
@@ -404,7 +427,7 @@
       <div class="scrolling content">
 
         <!-- CAREER & BUSINESS -->
-        <h2><i class="briefcase icon"></i>Career & Business</h2>
+        <h2><img style="width:35px;margin-right:7px;margin-bottom:5px;" src="img/career-icon.svg">Career & Business</h2>
         {{#if career}}
         {{#each career}}
         <a class="ui blue centered card" href="#">
@@ -443,7 +466,7 @@
         <p>There are no career events</p>
         {{/if}}
 
-        <h2><img src="img/robot.png" id="robot-icon" alt="robot-icon">Tech</h2>
+        <h2><img style="width:35px;margin-right:7px;margin-bottom:5px;" src="img/tech-icon.svg">Tech</h2>
         {{#if tech}}
         {{#each tech}}
         <a class="ui violet centered card" href="#">
@@ -475,7 +498,7 @@
         <p>There are no tech events</p>
         {{/if}}
 
-        <h2><i class="heartbeat icon"></i>Sports & Wellness</h2>
+        <h2><img style="width:35px;margin-right:7px;margin-bottom:5px;" src="img/sports-wellness-icon.svg">Sports & Wellness</h2>
         {{#if sports}}
         {{#each sports}}
         <a class="ui pink centered card" href="#">
@@ -508,7 +531,7 @@
         <p>There are no sports and wellness events</p>
         {{/if}}
 
-        <h2><i class="book icon"></i>Learning</h2>
+        <h2><img style="width:35px;margin-right:7px;margin-bottom:5px;" src="img/learning-icon.svg">Learning</h2>
         {{#if learning}}
         {{#each learning}}
         <a class="ui olive centered card" href="#">
@@ -540,7 +563,7 @@
         <p>There are no learning events</p>
         {{/if}}
 
-        <h2><img src="img/arts-icon.svg" id="arts-icon" alt="arts-icon">Arts & Culture</h2>
+        <h2><img style="width:35px;margin-right:7px;margin-bottom:5px;" src="img/arts-icon.svg">Arts & Culture</h2>
         {{#if arts}}
         {{#each arts}}
         <a class="ui red centered card" href="#">
@@ -572,7 +595,7 @@
         <p>There are no arts and culture events</p>
         {{/if}}
 
-        <h2><img src="img/others-icon.svg" id="others-icon" alt="others-icon">Others</h2>
+        <h2><img style="width:35px;margin-right:7px;margin-bottom:5px;" src="img/others-icon.svg">Others</h2>
         {{#if others}}
         {{#each others}}
         <a class="ui orange centered card" href="#">
@@ -616,7 +639,7 @@
       </div>
       <div class="scrolling content">
 
-        <h2><i class="briefcase icon"></i>Career & Business</h2>
+        <h2><img style="width:35px;margin-right:7px;margin-bottom:5px;" src="img/career-icon.svg">Career & Business</h2>
         {{#if my_career}}
         {{#each my_career}}
         <a class="ui blue centered card" href="#">
@@ -640,7 +663,7 @@
         <p>You have not organized any career and business events</p>
         {{/if}}
 
-        <h2><img src="img/robot.png" id="robot-icon" alt="robot-icon">Tech</h2>
+        <h2><img style="width:35px;margin-right:7px;margin-bottom:5px;" src="img/tech-icon.svg">Tech</h2>
         {{#if my_tech}}
         {{#each my_tech}}
         <a class="ui violet centered card" href="#">
@@ -664,7 +687,7 @@
         <p>You have not organized any tech events</p>
         {{/if}}
 
-        <h2><i class="heartbeat icon"></i>Sports & Wellness</h2>
+        <h2><img style="width:35px;margin-right:7px;margin-bottom:5px;" src="img/sports-wellness-icon.svg">Sports & Wellness</h2>
         {{#if my_sports}}
         {{#each my_sports}}
         <a class="ui pink centered card" href="#">
@@ -688,7 +711,7 @@
         <p>You have not organized any sports and wellness events</p>
         {{/if}}
 
-        <h2><i class="book icon"></i>Learning</h2>
+        <h2><img style="width:35px;margin-right:7px;margin-bottom:5px;" src="img/learning-icon.svg">Learning</h2>
         {{#if my_learning}}
         {{#each my_learning}}
         <a class="ui olive centered card" href="#">
@@ -712,7 +735,7 @@
         <p>You have not organized any learning events</p>
         {{/if}}
 
-        <h2><img src="img/arts-icon.svg" id="arts-icon" alt="arts-icon">Arts & Culture</h2>
+        <h2><img style="width:35px;margin-right:7px;margin-bottom:5px;" src="img/arts-icon.svg">Arts & Culture</h2>
         {{#if my_arts}}
         {{#each my_arts}}
         <a class="ui red centered card" href="#">
@@ -736,7 +759,7 @@
         <p>You have not organized any arts and culture events</p>
         {{/if}}
 
-        <h2><img src="img/others-icon.svg" id="others-icon" alt="others-icon">Others</h2>
+        <h2><img style="width:35px;margin-right:7px;margin-bottom:5px;" src="img/others-icon.svg">Others</h2>
         {{#if my_others}}
         {{#each my_others}}
         <a class="ui red centered card" href="#">

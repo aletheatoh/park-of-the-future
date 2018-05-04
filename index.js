@@ -27,12 +27,12 @@ const handlebarsConfigs = {
   extname: '.handlebars',
   layoutsDir: 'views',
   helpers: {
-      careerIcon: function () { return '<i class=\\"briefcase icon\\"></i>'; },
-      techIcon: function () { return '<img class=\\"ui mini avatar image\\" src=\\"img/robot.png\\" style=\\"margin-left:-3.5;\\">'; },
-      sportsIcon: function () { return '<i class=\\"heartbeat icon\\"></i>'; },
-      learningIcon: function () { return '<i class=\\"book icon\\"></i>'; },
-      artsIcon: function () { return '<img src=\\"img/arts-icon.svg\\" id="arts-icon" alt="arts-icon">'; },
-      othersIcon: function () { return '<img src=\\"img/others-icon.svg\\" id="others-icon" alt="others-icon">'; }
+      careerIcon: function () { return '<img style="width:35px;margin-right:5px;margin-bottom:5px;" src=\\"img/career-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
+      techIcon: function () { return '<img style="width:35px;margin-right:5px;" src=\\"img/tech-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
+      sportsIcon: function () { return '<img style="width:35px;margin-right:5px;margin-bottom:5px;" src=\\"img/sports-wellness-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
+      learningIcon: function () { return '<img style="width:35px;margin-right:5px;" src=\\"img/learning-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
+      artsIcon: function () { return '<img style="width:35px;margin-right:5px;" src=\\"img/arts-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
+      othersIcon: function () { return '<img style="width:35px;margin-right:5px;" src=\\"img/others-icon.svg\\" style=\\"margin-left:-3.5;\\">'; }
   }
   // defaultLayout: 'layout'
 };

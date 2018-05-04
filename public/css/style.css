@@ -2,7 +2,7 @@ html, body {margin: 0; height: 100%; width: 100%; overflow: hidden}
 
 #map { position:absolute; top:0; width:100%; height: 100%; z-index: 0; }
 
-#tree-talk-logo {
+#cookie-logo {
   width: 350px;
   display: block;
   padding: 40px;
@@ -17,7 +17,7 @@ html, body {margin: 0; height: 100%; width: 100%; overflow: hidden}
   text-align: center;
 }
 
-#tree-talk-logo-container {
+#cookie-logo-container {
   margin: 0 auto;
   display: block;
   width: 200px;
@@ -75,7 +75,6 @@ a {
   position: absolute;
   margin: 0 auto;
   bottom: 0;
-  /* background-color: pink; */
 }
 
 .ui.success.message {
@@ -90,10 +89,16 @@ a {
  left:72%;
 }
 
+.category-dropdown {
+  display: inline;
+  vertical-align: middle;
+}
 
+.category-dropdown-img {
+  width: 18px;
+}
 .scrolling.content {
   position: relative;
-  /* margin: 0 auto; */
   top:0;
   bottom: 0;
   left: 0;
