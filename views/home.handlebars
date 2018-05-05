@@ -337,20 +337,41 @@
           <div class="ui form">
             <div class="field">
               <label>Event Title</label>
-              <input name="name" type="text" placeholder="E.g. Yoga on the lawn">
+              <input id="event-name-input" name="name" type="text" placeholder="E.g. Yoga on the lawn">
             </div>
+
+            <!-- FORM VALIDATOR -->
+            <div class="form-validator ui error message" style="display:none;">
+              <ul class="list form-validator-list" id="event-form-validator-list">
+              </ul>
+            </div>
+
             <div class="field datetime">
               <label>Date</label>
               <input name="date" id="date-input" type="date">
-
+            </div>
+            <!-- FORM VALIDATOR -->
+            <div class="form-validator ui error message" style="display:none;">
+              <ul class="list form-validator-list" id="date-form-validator-list">
+              </ul>
             </div>
             <div class="field time">
               <label>Start Time</label>
-              <input name="starttime" type="time">
+              <input id="starttime-input" name="starttime" type="time">
+            </div>
+            <!-- FORM VALIDATOR -->
+            <div class="form-validator ui error message" style="display:none;">
+              <ul class="list form-validator-list" id="starttime-form-validator-list">
+              </ul>
             </div>
             <div class="field time">
               <label>End Time</label>
-              <input name="endtime" type="time">
+              <input id="endtime-input" name="endtime" type="time">
+            </div>
+            <!-- FORM VALIDATOR -->
+            <div class="form-validator ui error message" style="display:none;">
+              <ul class="list form-validator-list" id="endtime-form-validator-list">
+              </ul>
             </div>
 
             <div id="locationField">
@@ -362,12 +383,17 @@
                 <input id="lng-input" name="lng" type="text" style="display:none;"></input>
               </div>
             </div>
+            <!-- FORM VALIDATOR -->
+            <div class="form-validator ui error message" style="display:none;">
+              <ul class="list form-validator-list" id="venue-form-validator-list">
+              </ul>
+            </div>
             <br>
 
             <div class="field">
               <label>Event Category</label>
               <div class="ui fluid selection dropdown">
-                <input name="category" type="hidden" placeholder="Event Category">
+                <input id="category-input" name="category" type="hidden" placeholder="Event Category">
                 <i class="dropdown icon"></i>
                 <div class="default text">Select a Category</div>
 
@@ -399,12 +425,16 @@
                 </div>
 
               </div>
-              <br>
-              <div class="field textarea">
-                <label>Event Description</label>
-                <textarea name="description" type="text" placeholder="Tell us about your event."></textarea>
-              </div>
 
+            </div>
+            <!-- FORM VALIDATOR -->
+            <div class="ui error message form-validator" style="display:none;">
+              <ul class="list form-validator-list" id="category-form-validator-list">
+              </ul>
+            </div>
+            <div class="field textarea">
+              <label>Event Description</label>
+              <textarea name="description" type="text" placeholder="Tell us about your event."></textarea>
             </div>
 
             <script>
@@ -907,22 +937,58 @@
     }
 
     function submitForm() {
-      // get place input
-      var place = document.getElementById('autocomplete').value;
-      place = place.replace(/\s/g, "+");
 
-      // geocoding API request - limit country to singapore
-      $.get( `https://maps.googleapis.com/maps/api/geocode/json?address=${place}&components=country:singapore&key=AIzaSyCYzIzHZUMxbmbGWmWNvF6C0Ojzi3XTN1E`, function( data ) {
-        // use address given by google maps API if possible
-        if (data['results'][0]['formatted_address'] !== undefined) {
-          $('#autocomplete').val(data['results'][0]['formatted_address']);
-        }
-        $('#lat-input').val(data['results'][0]['geometry']['location']['lat']);
-        $('#lng-input').val(data['results'][0]['geometry']['location']['lng']);
+      if ( $('#event-name-input').val() !== "" && $('#date-input').val() !== "" &&
+      $('#starttime-input').val() !== "" &&
+      $('#endtime-input').val() !== "" &&
+      $('#autocomplete').val() !== "" &&
+      $('#category-input').val() !== "")  {
+        // get place input
+        var place = document.getElementById('autocomplete').value;
+        place = place.replace(/\s/g, "+");
 
-        // submit form
-        $('form#create-event-form').submit();
-      });
+        // geocoding API request - limit country to singapore
+        $.get( `https://maps.googleapis.com/maps/api/geocode/json?address=${place}&components=country:singapore&key=AIzaSyCYzIzHZUMxbmbGWmWNvF6C0Ojzi3XTN1E`, function( data ) {
+          // use address given by google maps API if possible
+          if (data['results'][0]['formatted_address'] !== undefined) {
+            $('#autocomplete').val(data['results'][0]['formatted_address']);
+          }
+          $('#lat-input').val(data['results'][0]['geometry']['location']['lat']);
+          $('#lng-input').val(data['results'][0]['geometry']['location']['lng']);
+
+          // submit form
+          $('form#create-event-form').submit();
+        });
+      }
+
+      // display error message
+      $('.form-validator').show();
+      $( ".form-validator-list" ).empty();
+
+      if ( $('#event-name-input').val() == "") {
+        $( "#event-form-validator-list" ).append('<li>Please enter a name for your event</li>');
+      }
+
+      if ( $('#date-input').val() == "") {
+        $( "#date-form-validator-list" ).append('<li>Please enter a date</li>');
+      }
+
+      if ( $('#starttime-input').val() == "") {
+        $( "#starttime-form-validator-list" ).append('<li>Please enter a start time</li>');
+      }
+
+      if ( $('#endtime-input').val() == "") {
+        $( "#endtime-form-validator-list" ).append('<li>Please enter an end time</li>');
+      }
+
+      if ( $('#autocomplete').val() == "") {
+        $( "#venue-form-validator-list" ).append('<li>Please enter an address</li>');
+      }
+
+      if ( $('#category-input').val() == "") {
+        $( "#category-form-validator-list" ).append('<li>Please select a category</li>');
+      }
+
     }
 
     </script>
