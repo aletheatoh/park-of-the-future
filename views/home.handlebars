@@ -341,7 +341,7 @@
             </div>
 
             <!-- FORM VALIDATOR -->
-            <div class="form-validator ui error message" style="display:none;">
+            <div id="event-form-validator" class="form-validator ui error message" style="display:none;">
               <ul class="list form-validator-list" id="event-form-validator-list">
               </ul>
             </div>
@@ -351,7 +351,7 @@
               <input name="date" id="date-input" type="date">
             </div>
             <!-- FORM VALIDATOR -->
-            <div class="form-validator ui error message" style="display:none;">
+            <div id="date-form-validator" class="form-validator ui error message" style="display:none;">
               <ul class="list form-validator-list" id="date-form-validator-list">
               </ul>
             </div>
@@ -360,7 +360,7 @@
               <input id="starttime-input" name="starttime" type="time">
             </div>
             <!-- FORM VALIDATOR -->
-            <div class="form-validator ui error message" style="display:none;">
+            <div id="starttime-form-validator" class="form-validator ui error message" style="display:none;">
               <ul class="list form-validator-list" id="starttime-form-validator-list">
               </ul>
             </div>
@@ -369,7 +369,7 @@
               <input id="endtime-input" name="endtime" type="time">
             </div>
             <!-- FORM VALIDATOR -->
-            <div class="form-validator ui error message" style="display:none;">
+            <div id="endtime-form-validator" class="form-validator ui error message" style="display:none;">
               <ul class="list form-validator-list" id="endtime-form-validator-list">
               </ul>
             </div>
@@ -384,7 +384,7 @@
               </div>
             </div>
             <!-- FORM VALIDATOR -->
-            <div class="form-validator ui error message" style="display:none;">
+            <div id="venue-form-validator" class="form-validator ui error message" style="display:none;">
               <ul class="list form-validator-list" id="venue-form-validator-list">
               </ul>
             </div>
@@ -428,7 +428,7 @@
 
             </div>
             <!-- FORM VALIDATOR -->
-            <div class="ui error message form-validator" style="display:none;">
+            <div id="category-form-validator" class="ui error message form-validator" style="display:none;">
               <ul class="list form-validator-list" id="category-form-validator-list">
               </ul>
             </div>
@@ -965,30 +965,36 @@
       }
 
       // display error message
-      $('.form-validator').show();
+      $('.form-validator').hide();
       $( ".form-validator-list" ).empty();
 
       if ( $('#event-name-input').val() == "") {
+        $( "#event-form-validator" ).show();
         $( "#event-form-validator-list" ).append('<li>Please enter a name for your event</li>');
       }
 
       if ( $('#date-input').val() == "") {
+        $( "#date-form-validator" ).show();
         $( "#date-form-validator-list" ).append('<li>Please enter a date</li>');
       }
 
       if ( $('#starttime-input').val() == "") {
+        $( "#starttime-form-validator" ).show();
         $( "#starttime-form-validator-list" ).append('<li>Please enter a start time</li>');
       }
 
       if ( $('#endtime-input').val() == "") {
+        $( "#endtime-form-validator" ).show();
         $( "#endtime-form-validator-list" ).append('<li>Please enter an end time</li>');
       }
 
       if ( $('#autocomplete').val() == "") {
+        $( "#venue-form-validator" ).show();
         $( "#venue-form-validator-list" ).append('<li>Please enter an address</li>');
       }
 
       if ( $('#category-input').val() == "") {
+        $( "#category-form-validator" ).show();
         $( "#category-form-validator-list" ).append('<li>Please select a category</li>');
       }
 
