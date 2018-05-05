@@ -915,6 +915,9 @@
     autocomplete = new google.maps.places.Autocomplete(
       /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
       {types: ['geocode']});
+      // Set initial restrict to the greater list of countries.
+        autocomplete.setComponentRestrictions(
+            {'country': ['sg']});
     }
 
     // Bias the autocomplete object to the user's geographical location,
