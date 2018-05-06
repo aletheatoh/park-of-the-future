@@ -29,6 +29,7 @@
    app.get('/users/:id', users.get(db));
 
    app.post('/events', events.create(db)); // done
+   app.put('/events/:id/interests', events.updateInterest(db)); // done
 
   //    // Redirect the user to Facebook for authentication.  When complete,
   // // Facebook will redirect the user back to the application at

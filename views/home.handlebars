@@ -468,7 +468,9 @@
         {{#each career}}
         <a class="ui blue centered card" href="#">
           <div class="content">
+            {{{currUserEvent this.id this.organizer_id ../user_id}}}
             <div class="header">{{this.name}}</div>
+            <div class="meta">Hosted by: {{this.organizer_name}}</div>
             <div class="description">
               <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
               <span><b>Where: </b>{{this.venue}}</span><br>
@@ -476,25 +478,51 @@
             </div>
           </div>
           <div class="extra content">
-            <div class="ui tiny yellow statistic">
-              <div class="value">
+            <div class="right floated ui tiny yellow statistic" style="margin-left:0;padding:0">
+              <div id="interest-stats-{{this.id}}" class="value">
                 {{this.num_interests}}
               </div>
               <div class="label">
                 Interested
               </div>
             </div>
-            <div style="display:inline-block; vertical-align:middle;" class="ui massive star rating" data-max-rating="1"></div>
 
             <script>
-            $('#interest-button').click(function() {
-              $('#interest-button').html('<i class="icon star"></i>14');
-            });
+
+            $('#interest-icon-{{this.id}}').click(function(event) {
+              console.log('clicked!')
+              if ( $('#interest-icon-{{this.id}} > i').attr('class') === "icon active") {
+                console.log('increment');
+
+                $.ajax({
+                    type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
+                    url: "http://localhost:3000/events/{{this.id}}/interests", // A valid URL
+                    headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+                    data: {increment: 1}, // Some data e.g. Valid JSON as a string
+                    success: function(data) {
+                      console.log('success')
+                    }
+                });
+
+                $('#interest-stats-{{this.id}}').text(parseInt($('#interest-stats-{{this.id}}').text()) + 1);
+              }
+              else {
+                console.log("decrement");
+                $.ajax({
+                    type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
+                    url: "http://localhost:3000/events/{{this.id}}/interests", // A valid URL
+                    headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+                    data: {increment: -1}, // Some data e.g. Valid JSON as a string
+                    success: function(data) {
+                      console.log('success')
+                    }
+                });
+                $('#interest-stats-{{this.id}}').text(parseInt($('#interest-stats-{{this.id}}').text()) - 1);
+              }
+            })
 
             </script>
-            <div class="right floated author">
-              <div>Hosted by: {{this.organizer_name}}</div>
-            </div>
+
           </div>
         </a>
         {{/each}}
@@ -507,6 +535,7 @@
         {{#each tech}}
         <a class="ui violet centered card" href="#">
           <div class="content">
+            {{{currUserEvent this.id this.organizer_id ../user_id}}}
             <div class="header">{{this.name}}</div>
             <div class="description">
               <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
@@ -515,18 +544,51 @@
             </div>
           </div>
           <div class="extra content">
-            <div class="ui tiny yellow statistic">
-              <div class="value">
+            <div class="right floated ui tiny yellow statistic" style="margin-left:0;padding:0">
+              <div id="interest-stats-{{this.id}}" class="value">
                 {{this.num_interests}}
               </div>
               <div class="label">
                 Interested
               </div>
             </div>
-            <div style="display:inline-block; vertical-align:middle;" class="ui massive star rating" data-max-rating="1"></div>
-            <div class="right floated author">
-              Hosted by: {{this.organizer_name}}
-            </div>
+
+            <script>
+
+            $('#interest-icon-{{this.id}}').click(function(event) {
+              console.log('clicked!')
+              if ( $('#interest-icon-{{this.id}} > i').attr('class') === "icon active") {
+                console.log('increment');
+
+                $.ajax({
+                    type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
+                    url: "http://localhost:3000/events/{{this.id}}/interests", // A valid URL
+                    headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+                    data: {increment: 1}, // Some data e.g. Valid JSON as a string
+                    success: function(data) {
+                      console.log('success')
+                    }
+                });
+
+                $('#interest-stats-{{this.id}}').text(parseInt($('#interest-stats-{{this.id}}').text()) + 1);
+              }
+              else {
+                console.log("decrement");
+                $.ajax({
+                    type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
+                    url: "http://localhost:3000/events/{{this.id}}/interests", // A valid URL
+                    headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+                    data: {increment: -1}, // Some data e.g. Valid JSON as a string
+                    success: function(data) {
+                      console.log('success')
+                    }
+                });
+                $('#interest-stats-{{this.id}}').text(parseInt($('#interest-stats-{{this.id}}').text()) - 1);
+              }
+            })
+
+            </script>
+
           </div>
         </a>
         {{/each}}
@@ -539,6 +601,7 @@
         {{#each sports}}
         <a class="ui pink centered card" href="#">
           <div class="content">
+            {{{currUserEvent this.id this.organizer_id ../user_id}}}
             <div class="header">{{this.name}}</div>
             <div class="description">
               <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
@@ -547,19 +610,51 @@
             </div>
           </div>
           <div class="extra content">
-            <div class="ui tiny yellow statistic">
-              <div class="value">
+            <div class="right floated ui tiny yellow statistic" style="margin-left:0;padding:0">
+              <div id="interest-stats-{{this.id}}" class="value">
                 {{this.num_interests}}
               </div>
               <div class="label">
                 Interested
               </div>
             </div>
-            <div style="display:inline-block; vertical-align:middle;" class="ui massive star rating" data-max-rating="1"></div>
 
-            <div class="right floated author">
-              Hosted by: {{this.organizer_name}}
-            </div>
+            <script>
+
+            $('#interest-icon-{{this.id}}').click(function(event) {
+              console.log('clicked!')
+              if ( $('#interest-icon-{{this.id}} > i').attr('class') === "icon active") {
+                console.log('increment');
+
+                $.ajax({
+                    type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
+                    url: "http://localhost:3000/events/{{this.id}}/interests", // A valid URL
+                    headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+                    data: {increment: 1}, // Some data e.g. Valid JSON as a string
+                    success: function(data) {
+                      console.log('success')
+                    }
+                });
+
+                $('#interest-stats-{{this.id}}').text(parseInt($('#interest-stats-{{this.id}}').text()) + 1);
+              }
+              else {
+                console.log("decrement");
+                $.ajax({
+                    type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
+                    url: "http://localhost:3000/events/{{this.id}}/interests", // A valid URL
+                    headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+                    data: {increment: -1}, // Some data e.g. Valid JSON as a string
+                    success: function(data) {
+                      console.log('success')
+                    }
+                });
+                $('#interest-stats-{{this.id}}').text(parseInt($('#interest-stats-{{this.id}}').text()) - 1);
+              }
+            })
+
+            </script>
+
           </div>
         </a>
         {{/each}}
@@ -572,6 +667,7 @@
         {{#each learning}}
         <a class="ui olive centered card" href="#">
           <div class="content">
+            {{{currUserEvent this.id this.organizer_id ../user_id}}}
             <div class="header">{{this.name}}</div>
             <div class="description">
               <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
@@ -580,18 +676,51 @@
             </div>
           </div>
           <div class="extra content">
-            <div class="ui tiny yellow statistic">
-              <div class="value">
+            <div class="right floated ui tiny yellow statistic" style="margin-left:0;padding:0">
+              <div id="interest-stats-{{this.id}}" class="value">
                 {{this.num_interests}}
               </div>
               <div class="label">
                 Interested
               </div>
             </div>
-            <div style="display:inline-block; vertical-align:middle;" class="ui massive star rating" data-max-rating="1"></div>
-            <div class="right floated author">
-              Hosted by: {{this.organizer_name}}
-            </div>
+
+            <script>
+
+            $('#interest-icon-{{this.id}}').click(function(event) {
+              console.log('clicked!')
+              if ( $('#interest-icon-{{this.id}} > i').attr('class') === "icon active") {
+                console.log('increment');
+
+                $.ajax({
+                    type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
+                    url: "http://localhost:3000/events/{{this.id}}/interests", // A valid URL
+                    headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+                    data: {increment: 1}, // Some data e.g. Valid JSON as a string
+                    success: function(data) {
+                      console.log('success')
+                    }
+                });
+
+                $('#interest-stats-{{this.id}}').text(parseInt($('#interest-stats-{{this.id}}').text()) + 1);
+              }
+              else {
+                console.log("decrement");
+                $.ajax({
+                    type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
+                    url: "http://localhost:3000/events/{{this.id}}/interests", // A valid URL
+                    headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+                    data: {increment: -1}, // Some data e.g. Valid JSON as a string
+                    success: function(data) {
+                      console.log('success')
+                    }
+                });
+                $('#interest-stats-{{this.id}}').text(parseInt($('#interest-stats-{{this.id}}').text()) - 1);
+              }
+            })
+
+            </script>
+
           </div>
         </a>
         {{/each}}
@@ -604,6 +733,7 @@
         {{#each arts}}
         <a class="ui red centered card" href="#">
           <div class="content">
+            {{{currUserEvent this.id this.organizer_id ../user_id}}}
             <div class="header">{{this.name}}</div>
             <div class="description">
               <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
@@ -612,18 +742,51 @@
             </div>
           </div>
           <div class="extra content">
-            <div class="ui tiny yellow statistic">
-              <div class="value">
+            <div class="right floated ui tiny yellow statistic" style="margin-left:0;padding:0">
+              <div id="interest-stats-{{this.id}}" class="value">
                 {{this.num_interests}}
               </div>
               <div class="label">
                 Interested
               </div>
             </div>
-            <div style="display:inline-block; vertical-align:middle;" class="ui massive star rating" data-max-rating="1"></div>
-            <div class="right floated author">
-              Hosted by: {{this.organizer_name}}
-            </div>
+
+            <script>
+
+            $('#interest-icon-{{this.id}}').click(function(event) {
+              console.log('clicked!')
+              if ( $('#interest-icon-{{this.id}} > i').attr('class') === "icon active") {
+                console.log('increment');
+
+                $.ajax({
+                    type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
+                    url: "http://localhost:3000/events/{{this.id}}/interests", // A valid URL
+                    headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+                    data: {increment: 1}, // Some data e.g. Valid JSON as a string
+                    success: function(data) {
+                      console.log('success')
+                    }
+                });
+
+                $('#interest-stats-{{this.id}}').text(parseInt($('#interest-stats-{{this.id}}').text()) + 1);
+              }
+              else {
+                console.log("decrement");
+                $.ajax({
+                    type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
+                    url: "http://localhost:3000/events/{{this.id}}/interests", // A valid URL
+                    headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+                    data: {increment: -1}, // Some data e.g. Valid JSON as a string
+                    success: function(data) {
+                      console.log('success')
+                    }
+                });
+                $('#interest-stats-{{this.id}}').text(parseInt($('#interest-stats-{{this.id}}').text()) - 1);
+              }
+            })
+
+            </script>
+
           </div>
         </a>
         {{/each}}
@@ -636,6 +799,7 @@
         {{#each others}}
         <a class="ui orange centered card" href="#">
           <div class="content">
+            {{{currUserEvent this.id this.organizer_id ../user_id}}}
             <div class="header">{{this.name}}</div>
             <div class="description">
               <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
@@ -644,18 +808,51 @@
             </div>
           </div>
           <div class="extra content">
-            <div class="ui tiny yellow statistic">
-              <div class="value">
+            <div class="right floated ui tiny yellow statistic" style="margin-left:0;padding:0">
+              <div id="interest-stats-{{this.id}}" class="value">
                 {{this.num_interests}}
               </div>
               <div class="label">
                 Interested
               </div>
             </div>
-            <div style="display:inline-block; vertical-align:middle;" class="ui massive star rating" data-max-rating="1"></div>
-            <div class="right floated author">
-              Hosted by: {{this.organizer_name}}
-            </div>
+
+            <script>
+
+            $('#interest-icon-{{this.id}}').click(function(event) {
+              console.log('clicked!')
+              if ( $('#interest-icon-{{this.id}} > i').attr('class') === "icon active") {
+                console.log('increment');
+
+                $.ajax({
+                    type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
+                    url: "http://localhost:3000/events/{{this.id}}/interests", // A valid URL
+                    headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+                    data: {increment: 1}, // Some data e.g. Valid JSON as a string
+                    success: function(data) {
+                      console.log('success')
+                    }
+                });
+
+                $('#interest-stats-{{this.id}}').text(parseInt($('#interest-stats-{{this.id}}').text()) + 1);
+              }
+              else {
+                console.log("decrement");
+                $.ajax({
+                    type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
+                    url: "http://localhost:3000/events/{{this.id}}/interests", // A valid URL
+                    headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+                    data: {increment: -1}, // Some data e.g. Valid JSON as a string
+                    success: function(data) {
+                      console.log('success')
+                    }
+                });
+                $('#interest-stats-{{this.id}}').text(parseInt($('#interest-stats-{{this.id}}').text()) - 1);
+              }
+            })
+
+            </script>
+
           </div>
         </a>
         {{/each}}
@@ -941,7 +1138,16 @@
 
     function submitForm() {
 
-      if ( $('#event-name-input').val() !== "" && $('#date-input').val() !== "" &&
+      // display error message
+      $('.form-validator').hide();
+      $( ".form-validator-list" ).empty();
+
+      if ( $('#starttime-input').val() > $('#endtime-input').val()) {
+        $( "#starttime-form-validator" ).show();
+        $( "#starttime-form-validator-list" ).append('<li>Invalid: start time cannot be later than end time</li>');
+      }
+
+      else if ( $('#event-name-input').val() !== "" && $('#date-input').val() !== "" &&
       $('#starttime-input').val() !== "" &&
       $('#endtime-input').val() !== "" &&
       $('#autocomplete').val() !== "" &&
@@ -964,10 +1170,7 @@
         });
       }
 
-      // display error message
-      $('.form-validator').hide();
-      $( ".form-validator-list" ).empty();
-
+      // FORM VALIDATION
       if ( $('#event-name-input').val() == "") {
         $( "#event-form-validator" ).show();
         $( "#event-form-validator-list" ).append('<li>Please enter a name for your event</li>');

@@ -38,7 +38,15 @@ const handlebarsConfigs = {
       sportsIcon: function () { return '<img style="width:35px;margin-right:5px;margin-bottom:5px;" src=\\"img/sports-wellness-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
       learningIcon: function () { return '<img style="width:35px;margin-right:5px;margin-bottom:5px;" src=\\"img/learning-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
       artsIcon: function () { return '<img style="width:35px;margin-right:5px;margin-bottom:5px;" src=\\"img/arts-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
-      othersIcon: function () { return '<img style="width:35px;margin-right:5px;margin-bottom:5px;" src=\\"img/others-icon.svg\\" style=\\"margin-left:-3.5;\\">'; }
+      othersIcon: function () { return '<img style="width:35px;margin-right:5px;margin-bottom:5px;" src=\\"img/others-icon.svg\\" style=\\"margin-left:-3.5;\\">'; },
+      currUserEvent: function(event_id, organizer_id, user_id) {
+        if (parseInt(organizer_id) === parseInt(user_id)) {
+          return '<div class=\"ui right floated compact red label\">Your event</div>'
+        }
+        else {
+          return `<div id=\"interest-icon-${event_id}\" class=\"right floated ui massive star rating\" data-max-rating="1"></div>`
+        }
+      }
   }
   // defaultLayout: 'layout'
 };
@@ -106,7 +114,8 @@ app.get('/', (request, response) => {
         my_arts: my_arts,
         my_others: my_others,
         // username
-        username: username
+        username: username,
+        user_id: user_id
       }
 
       // if a new event was created

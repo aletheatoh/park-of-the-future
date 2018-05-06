@@ -252,7 +252,22 @@
        response.redirect(`/?create_success=true&lng=${request.body.lng}&lat=${request.body.lat}`);
      });
    };
- };
+  };
+
+   const updateInterest = (db) => {
+     return (request, response) => {
+
+       db.event_.updateInterest(request.params.id, request.body.increment, (error, queryResult) => {
+
+         if (error) {
+           console.error('error updating interest:', error);
+           response.sendStatus(500);
+         }
+         // return true;
+       });
+     };
+   };
+
 
  /**
   * ===========================================
@@ -266,5 +281,6 @@
    update,
    deleteArticle,
    createForm,
-   create
+   create,
+   updateInterest
  };

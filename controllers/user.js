@@ -145,8 +145,6 @@ const login = (db) => {
     response.clearCookie('email');
     response.clearCookie('user-id');
 
-    // Hint: All SQL queries should happen in the corresponding model file
-    // ie. in models/user.js - which method should this controller call on the model?
     db.user.login(request.body, (error, queryResult) => {
 
       if (queryResult.rowCount === 0) {
