@@ -81,6 +81,27 @@ module.exports = (dbPool) => {
       });
     },
 
+    // update curr user interested boolean
+    updateCurrUserInterest: (id, increment, callback) => {
+      increment = parseInt(increment);
+      id = parseInt(id);
+
+      var queryString;
+      // set up query
+      if (increment === 1) {
+        queryString = `UPDATE events SET curr_user_interested = true WHERE id=${id}`;
+      }
+      else if (increment === -1) {
+        queryString = `UPDATE events SET curr_user_interested = false WHERE id=${id}`;
+      }
+
+      // execute query
+      dbPool.query(queryString, (error, queryResult) => {
+        // invoke callback function with results after query has executed
+        callback(error, queryResult);
+      });
+    },
+
     update: (id, article, callback) => {
       // set up query
 

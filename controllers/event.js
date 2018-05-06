@@ -257,13 +257,16 @@
    const updateInterest = (db) => {
      return (request, response) => {
 
-       db.event_.updateInterest(request.params.id, request.body.increment, (error, queryResult) => {
+       db.event_.updateInterest(request.params.id, request.body.increment, (err, qr) => {
 
-         if (error) {
-           console.error('error updating interest:', error);
-           response.sendStatus(500);
-         }
-         // return true;
+         db.event_.updateCurrUserInterest(request.params.id, request.body.increment, (error, queryResult) => {
+
+           if (error) {
+             console.error('error updating interest:', error);
+             response.sendStatus(500);
+           }
+           return;
+         });
        });
      };
    };

@@ -489,10 +489,19 @@
 
             <script>
 
+            {{#if this.curr_user_interested}}
+            $('#interest-icon-{{this.id}}')
+            .rating({
+              initialRating: 1,
+              maxRating: 1
+            })
+            {{else}}
+            $('#interest-icon-{{this.id}}')
+            .rating()
+            {{/if}}
+
             $('#interest-icon-{{this.id}}').click(function(event) {
-              console.log('clicked!')
               if ( $('#interest-icon-{{this.id}} > i').attr('class') === "icon active") {
-                console.log('increment');
 
                 $.ajax({
                     type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
@@ -554,6 +563,17 @@
             </div>
 
             <script>
+
+            {{#if this.curr_user_interested}}
+            $('#interest-icon-{{this.id}}')
+            .rating({
+              initialRating: 1,
+              maxRating: 1
+            })
+            {{else}}
+            $('#interest-icon-{{this.id}}')
+            .rating()
+            {{/if}}
 
             $('#interest-icon-{{this.id}}').click(function(event) {
               console.log('clicked!')
@@ -621,6 +641,18 @@
 
             <script>
 
+            {{#if this.curr_user_interested}}
+            $('#interest-icon-{{this.id}}')
+            .rating({
+              initialRating: 1,
+              maxRating: 1
+            })
+            {{else}}
+            $('#interest-icon-{{this.id}}')
+            .rating()
+            {{/if}}
+
+
             $('#interest-icon-{{this.id}}').click(function(event) {
               console.log('clicked!')
               if ( $('#interest-icon-{{this.id}} > i').attr('class') === "icon active") {
@@ -686,6 +718,17 @@
             </div>
 
             <script>
+
+            {{#if this.curr_user_interested}}
+            $('#interest-icon-{{this.id}}')
+            .rating({
+              initialRating: 1,
+              maxRating: 1
+            })
+            {{else}}
+            $('#interest-icon-{{this.id}}')
+            .rating()
+            {{/if}}
 
             $('#interest-icon-{{this.id}}').click(function(event) {
               console.log('clicked!')
@@ -753,6 +796,18 @@
 
             <script>
 
+            {{#if this.curr_user_interested}}
+            $('#interest-icon-{{this.id}}')
+            .rating({
+              initialRating: 1,
+              maxRating: 1
+            })
+            {{else}}
+            $('#interest-icon-{{this.id}}')
+            .rating()
+            {{/if}}
+
+
             $('#interest-icon-{{this.id}}').click(function(event) {
               console.log('clicked!')
               if ( $('#interest-icon-{{this.id}} > i').attr('class') === "icon active") {
@@ -818,6 +873,18 @@
             </div>
 
             <script>
+
+            {{#if this.curr_user_interested}}
+            $('#interest-icon-{{this.id}}')
+            .rating({
+              initialRating: 1,
+              maxRating: 1
+            })
+            {{else}}
+            $('#interest-icon-{{this.id}}')
+            .rating()
+            {{/if}}
+
 
             $('#interest-icon-{{this.id}}').click(function(event) {
               console.log('clicked!')
@@ -1025,10 +1092,6 @@
 
 
   <script>
-
-  $('.ui.rating')
-  .rating()
-  ;
 
   {{#if create_success}}
   $('#welcome-message').css('display', 'none');

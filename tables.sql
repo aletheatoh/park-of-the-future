@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS events (
   endtime TIME,
   description TEXT,
   num_interests INTEGER DEFAULT 0,
+  curr_user_interested BOOLEAN DEFAULT false,
   venue varchar(255),
   lat FLOAT,
   lng FLOAT,
