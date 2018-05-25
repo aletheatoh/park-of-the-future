@@ -37,7 +37,9 @@
     navigator.geolocation.getCurrentPosition(function(position) {
       user_lat = position.coords.latitude;
       user_lng = position.coords.longitude;
+      console.log(user_lat);
     });
+
   }
 
   var coor = [103.7830464, 1.2883539];
@@ -505,8 +507,14 @@
 
                 $.ajax({
                     type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
-                    url: "http://localhost:3000/events/{{this.id}}/interests", // A valid URL
-                    headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+                    url: "http://cookie-talk.herokuapp.com/events/{{this.id}}/interests", // A valid URL
+                    headers: {
+                      "X-HTTP-Method-Override": "PUT",
+                      user_id: '{{../user_id}}',
+                      username: '{{../username}}',
+                      loggedIn: '{{../loggedIn}}',
+                      email: '{{../email}}'
+                    }, // X-HTTP-Method-Override set to PUT.
                     data: {increment: 1}, // Some data e.g. Valid JSON as a string
                     success: function(data) {
                       console.log('success')
@@ -546,6 +554,7 @@
           <div class="content">
             {{{currUserEvent this.id this.organizer_id ../user_id}}}
             <div class="header">{{this.name}}</div>
+            <div class="meta">Hosted by: {{this.organizer_name}}</div>
             <div class="description">
               <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
               <span><b>Where: </b>{{this.venue}}</span><br>
@@ -582,8 +591,14 @@
 
                 $.ajax({
                     type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
-                    url: "http://localhost:3000/events/{{this.id}}/interests", // A valid URL
-                    headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+                    url: "https://cookie-talk.herokuapp.com/events/{{this.id}}/interests", // A valid URL
+                    headers: {
+                      "X-HTTP-Method-Override": "PUT",
+                      user_id: {{../user_id}},
+                      username: {{../username}},
+                      loggedIn: {{../loggedIn}},
+                      email: {{../email}}
+                    }, // X-HTTP-Method-Override set to PUT.
                     data: {increment: 1}, // Some data e.g. Valid JSON as a string
                     success: function(data) {
                       console.log('success')
@@ -623,6 +638,7 @@
           <div class="content">
             {{{currUserEvent this.id this.organizer_id ../user_id}}}
             <div class="header">{{this.name}}</div>
+            <div class="meta">Hosted by: {{this.organizer_name}}</div>
             <div class="description">
               <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
               <span><b>Where: </b>{{this.venue}}</span><br>
@@ -701,6 +717,7 @@
           <div class="content">
             {{{currUserEvent this.id this.organizer_id ../user_id}}}
             <div class="header">{{this.name}}</div>
+            <div class="meta">Hosted by: {{this.organizer_name}}</div>
             <div class="description">
               <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
               <span><b>Where: </b>{{this.venue}}</span><br>
@@ -778,6 +795,7 @@
           <div class="content">
             {{{currUserEvent this.id this.organizer_id ../user_id}}}
             <div class="header">{{this.name}}</div>
+            <div class="meta">Hosted by: {{this.organizer_name}}</div>
             <div class="description">
               <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
               <span><b>Where: </b>{{this.venue}}</span><br>
@@ -856,6 +874,7 @@
           <div class="content">
             {{{currUserEvent this.id this.organizer_id ../user_id}}}
             <div class="header">{{this.name}}</div>
+            <div class="meta">Hosted by: {{this.organizer_name}}</div>
             <div class="description">
               <span><b>When: </b>{{this.date_}}, {{this.starttime}} to {{this.endtime}}</span><br>
               <span><b>Where: </b>{{this.venue}}</span><br>

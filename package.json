@@ -9,13 +9,14 @@
     "start": "node index.js"
   },
   "engines": {
-    "node": "^9.10.1"
+    "node": "^10.0.0"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
     "classie": "^1.0.0",
     "cookie-parser": "^1.4.3",
+    "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "https": "^1.0.0",

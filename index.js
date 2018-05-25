@@ -8,6 +8,12 @@ const http = require("https");
 // var passport = require('passport')
 //   , FacebookStrategy = require('passport-facebook').Strategy;
 
+// load environment variables
+require('dotenv').load();
+// if (process.env.NODE_ENV !== 'production') {
+//   require('dotenv').load();
+// }
+
 /**
  * ===================================
  * Configurations and set up
@@ -67,6 +73,7 @@ app.get('/', (request, response) => {
   let loggedIn = request.cookies['loggedIn'];
   let username = request.cookies['username'];
   let user_id = request.cookies['user-id'];
+  let email = request.cookies['email'];
 
   // redirect user to sign in page if not signed in
   if (loggedIn === undefined) response.render('user/signin');
@@ -115,7 +122,9 @@ app.get('/', (request, response) => {
         my_others: my_others,
         // username
         username: username,
-        user_id: user_id
+        user_id: user_id,
+        loggedIn: loggedIn,
+        email: email
       }
 
       // if a new event was created
